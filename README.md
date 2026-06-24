@@ -1,22 +1,31 @@
 # ioannis.dev
 
-Personal site of **Ioannis Valasakis** — research engineer working at the intersection of
-signal processing, deep learning, and large-scale data systems.
+Personal site of **Ioannis Valasakis** — a research engineer working at the intersection of
+**signal processing, deep learning, and large-scale data systems**. (PhD in computational
+neuroscience; that's past depth, not the current positioning.)
 
-Built with Next.js 14 (App Router), TypeScript, Tailwind CSS, and Framer Motion. Visual
-system: **Electric Field** — one saturated violet field per view, a single lime charge,
-heavy bilingual (EN·JP) display type, generous negative space.
+**Live:** [ioannis.dev](https://ioannis.dev) · **Stack:** Next.js 14 (App Router) · TypeScript ·
+Tailwind CSS · Framer Motion · Vitest
 
-## Develop
+Visual system — **Electric Field**: one saturated violet field per view, a single lime charge,
+heavy bilingual (EN·JP) display type, generous negative space, flat (no decorative shadows).
+
+## Quick start
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # production build
-npm run lint       # eslint
-npm run typecheck  # tsc --noEmit
-npm test           # vitest — content-integrity checks
 ```
+
+| Script | Does |
+| --- | --- |
+| `npm run dev` | Dev server on :3000 |
+| `npm run build` | Production build |
+| `npm start` | Serve the production build |
+| `npm run lint` | ESLint (`next lint`) |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Vitest — content-integrity checks |
+| `npm run format` | Prettier |
 
 Node 20 (see `.nvmrc`).
 
@@ -24,25 +33,26 @@ Node 20 (see `.nvmrc`).
 
 ```
 src/
-├── app/                 # routes: / · /work · /work/[slug] · /writing · /about
-│   ├── layout.tsx       # fonts, metadata, shell
-│   ├── globals.css      # design-token CSS vars + component classes
-│   └── opengraph-image.tsx  # dynamic OG image (Electric Field)
-├── content/             # typed data layer — edit content here, not in components
+├── app/                       # routes: / · /work · /work/[slug] · /writing · /writing/[slug] · /about
+│   ├── layout.tsx             # fonts, metadata, shell, skip-link
+│   ├── globals.css            # design-token CSS vars + component classes
+│   ├── opengraph-image.tsx    # dynamic OG image (twitter-image re-exports it)
+│   └── sitemap.ts             # route-aware sitemap (drafts excluded)
+├── content/                   # TYPED DATA LAYER — edit content here, not in components
 │   ├── profile · links · experience · publications · projects
 │   ├── work · capabilities · skills · writing
-│   └── content.test.ts  # invariants (DOIs, URLs, slugs, ORCID)
+│   └── content.test.ts        # invariants (DOIs, URLs, slugs, ORCID)
 ├── components/
-│   ├── sections/        # Hero · SelectedWork · Capabilities · Experience · Publications · Projects · Contact
-│   ├── ui/              # Navigation · Footer · Button · Card · Badge · MonoLabel · IndexRow · SectionHeader · Icons
-│   └── visuals/         # SignalField (hero canvas)
-└── lib/                 # design-tokens · motion · cn · constants
+│   ├── sections/              # Hero · SelectedWork · Capabilities · Experience · Publications · Projects · Contact · Skills
+│   ├── ui/                    # Navigation · Footer · Button · Card · Badge · MonoLabel · IndexRow · SectionHeader · PageHeader · Reveal · Icons
+│   └── visuals/SignalField    # hero canvas (reduced-motion aware)
+└── lib/                       # design-tokens · motion · cn · constants
 ```
 
 ## Design system
 
-Tokens live in [`src/lib/design-tokens.ts`](src/lib/design-tokens.ts) and are consumed by
-`tailwind.config.ts` and mirrored as CSS variables in `globals.css`.
+Tokens live in [`src/lib/design-tokens.ts`](src/lib/design-tokens.ts) — the single source —
+consumed by `tailwind.config.ts` and mirrored as CSS variables in `globals.css`.
 
 | Token | Hex | Role |
 | --- | --- | --- |
@@ -54,16 +64,25 @@ Tokens live in [`src/lib/design-tokens.ts`](src/lib/design-tokens.ts) and are co
 | Chalk | `#FAF9FB` | page base, text on the field |
 
 Type: **Zen Kaku Gothic New** (display) · **Hanken Grotesk** (body/UI) · **IBM Plex Mono** (labels).
+Principles: one field per view · type as image · one charge of lime · generous negative space ·
+flat. Everything degrades under `prefers-reduced-motion`.
 
 ## Editing content
 
-All copy lives under `src/content/`. Add a publication in `publications.ts`, a role in
-`experience.ts`, a case study in `work.ts`, etc. Drop your CV at `public/cv.pdf` to enable
-the "Download CV" link.
+All copy lives under `src/content/` as typed arrays — change it there, not in components:
 
-## Deploy
+- `publications.ts` — papers (keep DOIs) · `work.ts` — case studies (`slug`, `featured`)
+- `experience.ts` — roles · `projects.ts` — repos · `capabilities.ts` — the four pillars
+- `skills.ts` · `writing.ts` (`draft: true` hides from the sitemap) · `profile.ts` · `links.ts`
 
-Hosted on Vercel (region `lhr1`). Production domain `ioannis.dev`.
+Drop a CV at `public/cv.pdf` to wire the "Download CV" link. Run `npm test` after editing the
+data layer — it validates DOIs, URLs, slugs, and the ORCID iD.
+
+## CI & deploy
+
+GitHub Actions (`.github/workflows/ci.yml`) runs lint · typecheck · test · build on every push
+and PR. Deployed on **Vercel** (region `lhr1`, security headers in `vercel.json`); production
+domain `ioannis.dev`. Connect the repo in Vercel so each push to `main` auto-deploys.
 
 ## License
 

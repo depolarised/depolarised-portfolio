@@ -74,6 +74,19 @@ Edit the arrays under `src/content/`:
 
 `npm test` validates content invariants — run it after editing the data layer.
 
+## Conventions & gotchas
+
+- **Before committing** a non-trivial change: `npm run lint && npm run typecheck && npm test && npm run build` all pass.
+- **Lime discipline**: never use `bg-lime` as a fill/marker dot or stack multiple lime accents in
+  one view. On field/footer (dark) sections the accent is the JA header text; markers use `bg-field`.
+- **Focus rings** are context-aware in `globals.css`: ink on light surfaces, lime within `.field`
+  and `footer`. Keep that when adding dark sections.
+- **Fonts**: only the `latin` subset is loaded for Zen Kaku Gothic New (perf). Japanese display
+  glyphs (e.g. 鼓動) fall back to system JP fonts — that's intentional; don't pull the heavy JP subset.
+- **Client boundaries**: keep `'use client'` on the smallest leaf possible. Routes and most
+  sections stay server components; only interactive/animated leaves opt in.
+- **`ref/`** (design references) is gitignored — not part of the published repo.
+
 ## Configuration
 
 - **tailwind.config.ts**: imports tokens (`colors`, `fontFamily`), custom `fontSize` scale, `maxWidth.content`.
