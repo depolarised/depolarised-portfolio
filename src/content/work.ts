@@ -3,7 +3,7 @@ import type { WorkItem } from './types'
 export const workItems: WorkItem[] = [
   {
     slug: 'glasgow',
-    title: 'Modernising the Glasgow ECG Analysis Program',
+    title: 'Enhancing the Glasgow ECG Analysis Program',
     titleJa: '心電図',
     organization: 'University of Glasgow',
     period: 'Apr 2025 — Present',
@@ -13,11 +13,11 @@ export const workItems: WorkItem[] = [
     tagline:
       'Deep-learning signal analysis for one of the longest-running clinical ECG programs.',
     summary:
-      'The Glasgow program has interpreted electrocardiograms for over fifty years and processes millions of recordings a year across licensed devices and research studies. I build the modern signal-analysis layer on top of it — and bring decades-old, safety-critical code into a reproducible, well-tested workflow.',
+      'The Glasgow program has interpreted electrocardiograms for over fifty years and processes millions of recordings a year across licensed devices and research studies. I build the deep-learning signal-analysis layer on top of it — and bring decades-old, safety-critical code into a reproducible, well-tested workflow.',
     contributions: [
       'Developing deep-learning modules for arrhythmia detection, noise classification, and signal-quality assessment.',
       'Re-engineering legacy interpretation pipelines for dependable, reproducible clinical deployment.',
-      'Bringing modern ML tooling, evaluation, and testing discipline to a long-lived codebase.',
+      'Bringing rigorous ML tooling, evaluation, and testing discipline to a long-lived codebase.',
     ],
     context: [
       '50+ years of continuous development; age-, sex- and ethnicity-specific diagnostic criteria.',
