@@ -96,7 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navigation />
         <main id="main">{children}</main>
         <Footer />
-        {process.env.NODE_ENV !== 'production' && <VersionBar />}
+        <VersionBar />
       </body>
     </html>
   )
