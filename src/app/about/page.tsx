@@ -21,7 +21,7 @@ export default function AboutPage() {
         label="About"
         title="About"
         titleJa="自己紹介"
-        description={profile.tagline}
+        description={profile.summary}
       />
 
       <section className="py-20 md:py-28">
