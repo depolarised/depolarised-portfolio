@@ -3,6 +3,7 @@ import { Zen_Kaku_Gothic_New, Hanken_Grotesk, IBM_Plex_Mono } from 'next/font/go
 import './globals.css'
 import Navigation from '@/components/ui/Navigation'
 import Footer from '@/components/ui/Footer'
+import VersionBar from '@/components/ui/VersionBar'
 import { SITE } from '@/lib/constants'
 
 const display = Zen_Kaku_Gothic_New({
@@ -76,9 +77,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
+      data-variant="v1"
       className={`${display.variable} ${sans.variable} ${mono.variable}`}
     >
       <body className="font-sans">
+        {/* No-flash: apply a stored v2 preference before paint (dev preview). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem('ef-variant')==='v2')document.documentElement.dataset.variant='v2';}catch(e){}`,
+          }}
+        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:font-bold focus:text-chalk"
@@ -88,6 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navigation />
         <main id="main">{children}</main>
         <Footer />
+        {process.env.NODE_ENV !== 'production' && <VersionBar />}
       </body>
     </html>
   )
