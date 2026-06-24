@@ -6,8 +6,8 @@ export const links = {
   linkedin: 'https://linkedin.com/in/wizofe',
   orcid: 'https://orcid.org/0000-0003-4602-246X',
   researchgate: 'https://www.researchgate.net/profile/Ioannis-Valasakis-2',
-  twitter: 'https://twitter.com/wizofe',
-  email: 'mailto:ioannis.valasakis@kcl.ac.uk',
+  email: 'mailto:ioannis.valasakis@glasgow.ac.uk',
+  // bluesky: 'https://bsky.app/profile/<handle>', // add when live
 } as const
 
 /** Social / contact links with display metadata. */
@@ -44,7 +44,9 @@ export const socialLinks: SocialLink[] = [
     name: 'Email',
     href: links.email,
     icon: 'email',
-    handle: 'ioannis.valasakis@kcl.ac.uk',
+    handle: 'ioannis.valasakis@glasgow.ac.uk',
     description: 'For research and collaboration.',
   },
+  // Bluesky — add when the handle is live:
+  // { name: 'Bluesky', href: 'https://bsky.app/profile/<handle>', icon: 'email', handle: '<handle>', description: '...' },
 ]

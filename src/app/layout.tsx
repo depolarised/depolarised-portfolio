@@ -58,7 +58,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: `${SITE.name} — Research Engineer`,
     description: SITE.description,
-    creator: SITE.twitter,
   },
   robots: {
     index: true,

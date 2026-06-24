@@ -16,6 +16,6 @@ export const profile: Profile = {
   ],
   location: 'Glasgow, Scotland',
   affiliation: 'University of Glasgow',
-  email: 'ioannis.valasakis@kcl.ac.uk',
+  email: 'ioannis.valasakis@glasgow.ac.uk',
   resumeUrl: '/cv.pdf',
 }
