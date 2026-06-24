@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Electric Field palette — mirrored from src/lib/design-tokens.ts for raw CSS / canvas. */
+:root {
+  --field: #7a35e0;
+  --field-deep: #5a24b0;
+  --field-lift: #9a63f0;
+  --lime: #c6f24e;
+  --ink: #14121a;
+  --haze: #5a5270;
+  --mist: #eceaf0;
+  --chalk: #faf9fb;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-chalk text-ink antialiased;
+    font-feature-settings: 'kern', 'liga';
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--lime);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  /* On dark surfaces (the violet field, the ink footer) switch to lime so the ring stays visible. */
+  .field :focus-visible,
+  footer :focus-visible {
+    outline-color: var(--lime);
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply mx-auto w-full max-w-content px-6 sm:px-8 lg:px-12;
+  }
+
+  /* The system's voice for indices, tags, captions, source lines. */
+  .mono-label {
+    @apply font-mono text-label uppercase text-haze;
+  }
+
+  /* Commit fully to the field. */
+  .field {
+    @apply bg-field text-chalk;
+  }
+
+  .hairline {
+    @apply border-ink/10;
+  }
+
+  /* Controls — pill geometry, flat (no decorative shadows). */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-field px-6 py-3
+           font-sans font-bold text-chalk transition-colors duration-200 hover:bg-field-lift;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-ink
+           px-6 py-3 font-sans font-bold text-ink transition-colors duration-200 hover:bg-ink hover:text-chalk;
+  }
+
+  /* Secondary control when sitting on the violet field. */
+  .btn-on-field {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-chalk px-6 py-3
+           font-sans font-bold text-ink transition-colors duration-200 hover:bg-lime;
+  }
+
+  /* The one charge of lime — a marker under a link. */
+  .lime-underline {
+    @apply border-b-[3px] border-lime;
+  }
+
+  .link-quiet {
+    @apply text-haze transition-colors duration-200 hover:text-ink;
+  }
+}
+
+/* Scrollbar — quiet, on-system. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--mist);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--haze);
+  border-radius: 999px;
+  border: 3px solid var(--mist);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
