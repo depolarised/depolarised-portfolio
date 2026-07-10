@@ -4,10 +4,10 @@ import type { SocialLink } from './types'
 export const links = {
   github: 'https://github.com/depolarised',
   linkedin: 'https://linkedin.com/in/wizofe',
+  bluesky: 'https://bsky.app/profile/wizofe.uk',
   orcid: 'https://orcid.org/0000-0003-4602-246X',
   researchgate: 'https://www.researchgate.net/profile/Ioannis-Valasakis-2',
   email: 'mailto:ioannis.valasakis@glasgow.ac.uk',
-  // bluesky: 'https://bsky.app/profile/<handle>', // add when live
 } as const
 
 /** Social / contact links with display metadata. */
@@ -25,6 +25,13 @@ export const socialLinks: SocialLink[] = [
     icon: 'linkedin',
     handle: 'in/wizofe',
     description: 'Professional history and contact.',
+  },
+  {
+    name: 'Bluesky',
+    href: links.bluesky,
+    icon: 'bluesky',
+    handle: '@wizofe.uk',
+    description: 'Short posts and conversation.',
   },
   {
     name: 'ORCID',
@@ -47,6 +54,4 @@ export const socialLinks: SocialLink[] = [
     handle: 'ioannis.valasakis@glasgow.ac.uk',
     description: 'For research and collaboration.',
   },
-  // Bluesky — add when the handle is live:
-  // { name: 'Bluesky', href: 'https://bsky.app/profile/<handle>', icon: 'email', handle: '<handle>', description: '...' },
 ]

@@ -12,7 +12,7 @@ export default function Capabilities({ index = '02' }: { index?: string }) {
             index={index}
             title="Approach"
             titleJa="手法"
-            description="Four threads run through everything I build — from a clinical ECG to a survey of the sky, the problem rhymes."
+            description="Four threads run through my work, whether the signal comes from a heart or a telescope."
             onField
           />
         </Reveal>

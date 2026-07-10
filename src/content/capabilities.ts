@@ -6,7 +6,7 @@ export const capabilities: Capability[] = [
     title: 'Signal detection in noise',
     titleJa: '信号検出',
     description:
-      'Pulling structure out of noisy, high-volume signals — arrhythmia and anomaly detection, denoising, time-frequency analysis, signal-quality assessment. The same detection-in-noise problem astronomy faces with transients and faint sources.',
+      'Arrhythmia and anomaly detection, denoising, time-frequency analysis, and signal-quality assessment in noisy, high-volume data. Astronomy faces the same problem with transients and faint sources.',
     tags: ['Time-series', 'Detection', 'Denoising', 'Spectral methods'],
   },
   {
@@ -14,7 +14,7 @@ export const capabilities: Capability[] = [
     title: 'Deep learning at scale',
     titleJa: '大規模学習',
     description:
-      'Training and shipping models against millions of records: data pipelines, HPC and GPU compute, and production ML that stays reliable far past the prototype.',
+      'Training and shipping models against millions of records. Data pipelines, HPC and GPU compute, and production ML that keeps working long after the prototype.',
     tags: ['PyTorch', 'HPC', 'Pipelines', 'Production ML'],
   },
   {
@@ -22,7 +22,7 @@ export const capabilities: Capability[] = [
     title: 'Explainable & trustworthy AI',
     titleJa: '説明可能性',
     description:
-      'Making model decisions legible — SmoothGrad, Grad-CAM, integrated gradients — so predictions can be trusted in clinical and scientific settings.',
+      'Attribution methods like SmoothGrad, Grad-CAM, and integrated gradients, so clinicians and scientists can see why a model made its call.',
     tags: ['XAI', 'Attribution', 'Interpretability'],
   },
   {
@@ -30,7 +30,7 @@ export const capabilities: Capability[] = [
     title: 'Research engineering & systems',
     titleJa: '研究基盤',
     description:
-      'From Linux-kernel and embedded systems to modern ML infrastructure: reproducible, well-tested software, not just notebooks — with a bias toward correctness.',
+      'Reproducible, well-tested research software, with habits carried over from Linux-kernel and embedded systems work.',
     tags: ['Linux', 'Rust / C++', 'CI/CD', 'Reproducibility'],
   },
 ]

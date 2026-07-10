@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import { profile } from '@/content/profile'
 import { SITE } from '@/lib/constants'
 
-export const alt = 'Ioannis Valasakis — Research Engineer'
+export const alt = 'Dr Ioannis Valasakis — Research Engineer'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 

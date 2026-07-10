@@ -12,7 +12,7 @@ export default function Home() {
         index="01"
         items={workItems.slice(0, 3)}
         withViewAll
-        description="A few things I’ve built — signal analysis at clinical scale, learned reconstruction, and interpretable models."
+        description="A few things I’ve built: signal analysis at clinical scale, learned reconstruction, and interpretable models."
       />
       <Capabilities index="02" />
       <Contact index="03" />

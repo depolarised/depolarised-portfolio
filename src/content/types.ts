@@ -3,6 +3,7 @@
 export type IconName =
   | 'github'
   | 'linkedin'
+  | 'bluesky'
   | 'orcid'
   | 'researchgate'
   | 'twitter'
@@ -19,6 +20,7 @@ export interface Profile {
   taglineJa: string
   summary: string
   bio: string[]
+  credentials?: string
   location: string
   affiliation: string
   email: string
@@ -43,6 +45,7 @@ export interface ExperienceItem {
   type: ExperienceType
   description: string[]
   skills?: string[]
+  links?: WorkLink[]
   featured?: boolean
 }
 

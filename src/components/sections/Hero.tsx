@@ -54,10 +54,15 @@ export default function Hero() {
             </a>
           </motion.div>
 
-          <motion.div variants={revealItem} className="mt-10">
-            <MonoLabel className="text-chalk/55">
+          <motion.div variants={revealItem} className="mt-10 space-y-1.5">
+            <MonoLabel as="div" className="text-chalk/55">
               {profile.role} · {profile.location}
             </MonoLabel>
+            {profile.credentials && (
+              <MonoLabel as="div" className="text-chalk/70">
+                {profile.credentials}
+              </MonoLabel>
+            )}
           </motion.div>
         </motion.div>
 

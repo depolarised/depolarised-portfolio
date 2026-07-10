@@ -15,6 +15,7 @@ const ORCID = /^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/
 const ALLOWED_ICONS = new Set([
   'github',
   'linkedin',
+  'bluesky',
   'orcid',
   'researchgate',
   'twitter',
@@ -35,9 +36,8 @@ function isValidUrl(value: string): boolean {
 }
 
 describe('profile', () => {
-  it('has the essential fields and no "Dr" prefix on the name', () => {
-    expect(profile.name).toBe('Ioannis Valasakis')
-    expect(profile.name.toLowerCase()).not.toContain('dr ')
+  it('has the essential fields and the Dr honorific on the name', () => {
+    expect(profile.name).toBe('Dr Ioannis Valasakis')
     expect(profile.role.length).toBeGreaterThan(0)
     expect(profile.bio.length).toBeGreaterThanOrEqual(3)
   })
@@ -140,6 +140,43 @@ describe('capabilities & skills', () => {
   it('has non-empty skill groups', () => {
     expect(skillGroups.length).toBeGreaterThan(0)
     for (const group of skillGroups) expect(group.items.length).toBeGreaterThan(0)
+  })
+})
+
+describe('voice', () => {
+  // The site's prose voice: plain sentences, no em dashes or semicolons, no
+  // stock AI phrasing. profile.role and profile.tagline are deliberate
+  // exceptions (display lines, not prose), as are date ranges and titles.
+  const prose = [
+    profile.summary,
+    ...profile.bio,
+    ...capabilities.map((c) => c.description),
+    ...experiences.flatMap((e) => e.description),
+    ...workItems.flatMap((w) => [w.tagline, w.summary, ...w.contributions, ...w.context]),
+    ...projects.map((p) => p.description),
+    ...notes.flatMap((n) => [n.summary, ...n.body]),
+  ]
+
+  it('contains no em dashes or semicolons in prose', () => {
+    for (const text of prose) {
+      expect(text, text).not.toContain('—')
+      expect(text, text).not.toContain(';')
+    }
+  })
+
+  it('avoids stock AI phrasing', () => {
+    const banned = [
+      /it['’]s about/i,
+      /it['’]s not just/i,
+      /not only .{1,40} but also/i,
+      /in a world where/i,
+      /at its core/i,
+    ]
+    for (const text of prose) {
+      for (const pattern of banned) {
+        expect(pattern.test(text), `${pattern} in: ${text}`).toBe(false)
+      }
+    }
   })
 })
 

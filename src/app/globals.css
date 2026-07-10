@@ -115,93 +115,93 @@
 }
 
 /* ============================================================
-   v2 — "violet-dominant" variant. The whole page lives on the
-   field: violet base, chalk text, lime accents, chalk hairlines.
-   Toggled by the VersionBar (sets [data-variant="v2"] on <html>).
-   v1 is the default and is untouched by everything below.
+   Dark theme — the whole page lives on the field: violet base,
+   chalk text, lime accents, chalk hairlines.
+   Toggled by ThemeToggle (sets [data-theme="dark"] on <html>).
+   Light is the default and is untouched by everything below.
    ============================================================ */
 
 /* page base + section surfaces */
-[data-variant='v2'] body {
+[data-theme='dark'] body {
   background: #7a35e0;
   color: #faf9fb;
 }
-[data-variant='v2'] .bg-chalk {
+[data-theme='dark'] .bg-chalk {
   background-color: #5a24b0;
 } /* cards, panels, mobile menu */
-[data-variant='v2'] .bg-chalk\/90 {
+[data-theme='dark'] .bg-chalk\/90 {
   background-color: rgba(90, 36, 176, 0.85);
 } /* sticky nav */
-[data-variant='v2'] .bg-mist {
+[data-theme='dark'] .bg-mist {
   background-color: #5a24b0;
 }
-[data-variant='v2'] .hover\:bg-mist:hover {
+[data-theme='dark'] .hover\:bg-mist:hover {
   background-color: #6e3ad0;
 }
-[data-variant='v2'] .bg-ink\/10 {
+[data-theme='dark'] .bg-ink\/10 {
   background-color: rgba(250, 249, 251, 0.16);
 } /* grid gap hairlines */
-[data-variant='v2'] .field {
+[data-theme='dark'] .field {
   background-color: #5a24b0;
 } /* field sections deepen on the violet base */
 
 /* text */
-[data-variant='v2'] .text-ink,
-[data-variant='v2'] .hover\:text-ink:hover,
-[data-variant='v2'] .group:hover .group-hover\:text-field {
+[data-theme='dark'] .text-ink,
+[data-theme='dark'] .hover\:text-ink:hover,
+[data-theme='dark'] .group:hover .group-hover\:text-field {
   color: #faf9fb;
 }
-[data-variant='v2'] .text-haze,
-[data-variant='v2'] .mono-label {
+[data-theme='dark'] .text-haze,
+[data-theme='dark'] .mono-label {
   color: rgba(250, 249, 251, 0.72);
 }
-[data-variant='v2'] .text-field,
-[data-variant='v2'] .hover\:text-field:hover {
+[data-theme='dark'] .text-field,
+[data-theme='dark'] .hover\:text-field:hover {
   color: #c6f24e;
 }
-[data-variant='v2'] .group:hover .group-hover\:text-field {
+[data-theme='dark'] .group:hover .group-hover\:text-field {
   color: #c6f24e;
 }
 
 /* hairlines */
-[data-variant='v2'] .border-ink\/10,
-[data-variant='v2'] .border-ink\/12,
-[data-variant='v2'] .border-ink\/15 {
+[data-theme='dark'] .border-ink\/10,
+[data-theme='dark'] .border-ink\/12,
+[data-theme='dark'] .border-ink\/15 {
   border-color: rgba(250, 249, 251, 0.16);
 }
-[data-variant='v2'] .border-ink\/20 {
+[data-theme='dark'] .border-ink\/20 {
   border-color: rgba(250, 249, 251, 0.24);
 }
-[data-variant='v2'] .hover\:border-ink\/40:hover {
+[data-theme='dark'] .hover\:border-ink\/40:hover {
   border-color: rgba(250, 249, 251, 0.45);
 }
 
 /* lime as the accent surface for markers / wordmarks / active controls */
-[data-variant='v2'] .bg-field {
+[data-theme='dark'] .bg-field {
   background-color: #c6f24e;
 }
-[data-variant='v2'] .bg-field.text-chalk {
+[data-theme='dark'] .bg-field.text-chalk {
   color: #14121a;
 }
 
 /* buttons */
-[data-variant='v2'] .btn-primary {
+[data-theme='dark'] .btn-primary {
   background-color: #c6f24e;
   color: #14121a;
 }
-[data-variant='v2'] .btn-primary:hover {
+[data-theme='dark'] .btn-primary:hover {
   background-color: #d4ff63;
 }
-[data-variant='v2'] .btn-secondary {
+[data-theme='dark'] .btn-secondary {
   border-color: #faf9fb;
   color: #faf9fb;
 }
-[data-variant='v2'] .btn-secondary:hover {
+[data-theme='dark'] .btn-secondary:hover {
   background-color: #faf9fb;
   color: #14121a;
 }
 
 /* keep the focus ring lime on the violet base */
-[data-variant='v2'] :focus-visible {
+[data-theme='dark'] :focus-visible {
   outline-color: #c6f24e;
 }

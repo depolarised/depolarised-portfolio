@@ -1,9 +1,9 @@
 export const SITE = {
-  name: 'Ioannis Valasakis',
+  name: 'Dr Ioannis Valasakis',
   url: 'https://ioannis.dev',
-  title: 'Ioannis Valasakis — Research Engineer',
+  title: 'Dr Ioannis Valasakis — Research Engineer',
   description:
-    'Research engineer building deep-learning systems for signal processing at scale — robust detection in noisy, high-volume data. Currently enhancing the Glasgow ECG analysis program.',
+    'Research engineer building deep-learning systems for signals at scale. Currently in the ECG Core Lab at the University of Glasgow, working on the Glasgow ECG analysis program.',
   locale: 'en_GB',
 } as const
 

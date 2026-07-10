@@ -7,6 +7,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { cn } from '@/lib/cn'
 import { NAV } from '@/lib/constants'
 import { profile } from '@/content/profile'
+import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export default function Navigation() {
   const pathname = usePathname()
@@ -58,6 +59,7 @@ export default function Navigation() {
                 </Link>
               )
             })}
+            <ThemeToggle />
             <a
               href={profile.resumeUrl}
               target="_blank"
@@ -93,6 +95,7 @@ export default function Navigation() {
                 {item.label}
               </Link>
             ))}
+            <ThemeToggle withLabel />
             <a
               href={profile.resumeUrl}
               target="_blank"

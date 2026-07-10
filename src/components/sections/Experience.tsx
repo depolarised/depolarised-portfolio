@@ -6,6 +6,7 @@ import type { ExperienceType } from '@/content/types'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { Reveal } from '@/components/ui/Reveal'
 import { Badge } from '@/components/ui/Badge'
+import { Icon } from '@/components/ui/Icons'
 import { cn } from '@/lib/cn'
 
 type Filter = ExperienceType | 'all'
@@ -29,7 +30,7 @@ export default function Experience({ index = '02' }: { index?: string }) {
             index={index}
             title="Experience"
             titleJa="経歴"
-            description="Sixteen years across academia and industry — research, engineering, and shipping."
+            description="Sixteen years across academia and industry, in research, engineering, and shipping."
           />
         </Reveal>
 
@@ -81,6 +82,22 @@ export default function Experience({ index = '02' }: { index?: string }) {
                   <div className="mt-4 flex flex-wrap gap-2">
                     {exp.skills.map((s) => (
                       <Badge key={s}>{s}</Badge>
+                    ))}
+                  </div>
+                )}
+                {exp.links && (
+                  <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+                    {exp.links.map((l) => (
+                      <a
+                        key={l.href}
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-1.5 font-mono text-label uppercase text-haze transition-colors hover:text-field"
+                      >
+                        {l.label}
+                        <Icon name="external" className="h-3.5 w-3.5" />
+                      </a>
                     ))}
                   </div>
                 )}

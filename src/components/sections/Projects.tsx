@@ -18,7 +18,7 @@ export default function Projects({ index = '02' }: { index?: string }) {
             index={index}
             title="Open source"
             titleJa="制作"
-            description="Tools and systems work — research software and the odd creative-tech experiment."
+            description="Tools and systems work. Research software and the odd creative-tech experiment."
           />
         </Reveal>
 

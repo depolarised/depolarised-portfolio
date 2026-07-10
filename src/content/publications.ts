@@ -42,7 +42,7 @@ export const publications: Publication[] = [
   {
     title: 'Development of a Processing Toolset for Ion Mobility Mass Spectrometry',
     authors: 'Valasakis, I.',
-    venue: 'MSc Thesis — Birkbeck, University of London',
+    venue: 'MSc Thesis, Birkbeck, University of London',
     year: 2019,
     type: 'thesis',
     tags: ['Signal Processing', 'Mass Spectrometry', 'Data Processing'],
