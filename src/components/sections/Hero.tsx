@@ -1,11 +1,9 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { motion } from 'framer-motion'
 import { profile } from '@/content/profile'
 import { Button } from '@/components/ui/Button'
 import { MonoLabel } from '@/components/ui/MonoLabel'
-import { revealStagger, revealItem } from '@/lib/motion'
 
 const SignalField = dynamic(() => import('@/components/visuals/SignalField'), {
   ssr: false,
@@ -16,33 +14,49 @@ export default function Hero() {
   return (
     <section className="field relative overflow-hidden">
       <div className="section-container grid items-center gap-10 py-20 md:py-28 lg:grid-cols-[1.05fr_0.95fr]">
-        <motion.div variants={revealStagger(0.12)} initial="hidden" animate="show">
-          <motion.div variants={revealItem}>
-            <MonoLabel className="text-chalk/70">{profile.name}</MonoLabel>
-          </motion.div>
+        {/* Entrance is pure CSS (see globals.css) so the first paint is never a
+            frozen empty stage waiting on hydration. */}
+        <div>
+          <div
+            className="anim-rise mb-6 flex items-center gap-2.5"
+            style={{ animationDelay: '0ms' }}
+          >
+            <span className="relative flex h-2 w-2" aria-hidden>
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-lime" />
+            </span>
+            <MonoLabel className="text-chalk/70">Open to collaborations</MonoLabel>
+          </div>
 
-          <motion.h1
-            variants={revealItem}
-            className="mt-5 font-display text-display-xl text-chalk"
+          <div className="anim-rise" style={{ animationDelay: '80ms' }}>
+            <MonoLabel className="text-chalk/70">{profile.name}</MonoLabel>
+          </div>
+
+          <h1
+            className="anim-rise mt-5 font-display text-display-xl text-chalk"
+            style={{ animationDelay: '160ms' }}
           >
             {profile.tagline}
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            variants={revealItem}
-            className="mt-3 font-display text-h2 text-chalk/80"
+          <p
+            className="anim-rise mt-3 font-display text-h2 text-chalk/80"
+            style={{ animationDelay: '240ms' }}
           >
             {profile.taglineJa}
-          </motion.p>
+          </p>
 
-          <motion.p
-            variants={revealItem}
-            className="mt-6 max-w-xl text-body-lg leading-relaxed text-chalk/85"
+          <p
+            className="anim-rise mt-6 max-w-xl text-body-lg leading-relaxed text-chalk/85"
+            style={{ animationDelay: '320ms' }}
           >
             {profile.summary}
-          </motion.p>
+          </p>
 
-          <motion.div variants={revealItem} className="mt-8 flex flex-wrap gap-3">
+          <div
+            className="anim-rise mt-8 flex flex-wrap gap-3"
+            style={{ animationDelay: '400ms' }}
+          >
             <Button href="/work" variant="onField" withArrow>
               View work
             </Button>
@@ -52,9 +66,12 @@ export default function Hero() {
             >
               Get in touch
             </a>
-          </motion.div>
+          </div>
 
-          <motion.div variants={revealItem} className="mt-10 space-y-1.5">
+          <div
+            className="anim-rise mt-10 space-y-1.5"
+            style={{ animationDelay: '480ms' }}
+          >
             <MonoLabel as="div" className="text-chalk/55">
               {profile.role} · {profile.location}
             </MonoLabel>
@@ -63,17 +80,15 @@ export default function Hero() {
                 {profile.credentials}
               </MonoLabel>
             )}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="relative h-[280px] sm:h-[360px] lg:h-[460px]"
+        <div
+          className="anim-fade relative h-[280px] sm:h-[360px] lg:h-[460px]"
+          style={{ animationDelay: '200ms' }}
         >
           <SignalField />
-        </motion.div>
+        </div>
       </div>
     </section>
   )

@@ -23,7 +23,7 @@ export default function Experience({ index = '02' }: { index?: string }) {
   const list = experiences.filter((e) => filter === 'all' || e.type === filter)
 
   return (
-    <section id="experience" className="py-20 md:py-28">
+    <section id="experience" className="section-y">
       <div className="section-container">
         <Reveal>
           <SectionHeader
@@ -66,7 +66,7 @@ export default function Experience({ index = '02' }: { index?: string }) {
               </div>
               <div>
                 <h3 className="font-display text-h2 text-ink">{exp.title}</h3>
-                <p className="mt-1 font-medium text-field">
+                <p className="mt-1 font-medium text-accent">
                   {exp.organization}
                   <span className="text-haze"> · {exp.location}</span>
                 </p>
@@ -93,7 +93,7 @@ export default function Experience({ index = '02' }: { index?: string }) {
                         href={l.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-1.5 font-mono text-label uppercase text-haze transition-colors hover:text-field"
+                        className="group inline-flex items-center gap-1.5 font-mono text-label uppercase text-haze transition-colors hover:text-accent"
                       >
                         {l.label}
                         <Icon name="external" className="h-3.5 w-3.5" />

@@ -4,13 +4,20 @@ Guidance for Claude Code when working in this repository.
 
 ## Project Overview
 
-Personal site of **Ioannis Valasakis** (ioannis.dev) — a **Research Engineer** working on
+Personal site of **Dr Ioannis Valasakis** (ioannis.dev) — a **Research Engineer** working on
 signal processing, deep learning, and large-scale data systems. (Holds a PhD in computational
 neuroscience; that is past depth, not the current positioning.) Built with Next.js 14 App
 Router, TypeScript, Tailwind CSS, and Framer Motion.
 
-Visual system: **Electric Field** — one saturated violet field per view, a single lime charge,
-heavy bilingual (EN·JP) display type, generous negative space, flat (no decorative shadows).
+Visual system: **Electric Field** (Electric Grape palette) — one saturated violet field per view,
+a single lime charge, heavy bilingual (EN·JP) display type, generous negative space, flat (no
+decorative shadows). Light is the default; a **dark theme** (the whole page on the grape field)
+toggles via `ThemeToggle` — `[data-theme="dark"]` on `<html>`, stored in `localStorage`, applied
+pre-paint by an inline no-flash script in `layout.tsx`. The dark map lives at the bottom of
+`globals.css`.
+
+The hero canvas (`SignalField`) is a chalk **atrial-fibrillation ECG** resolving out of noise
+(irregular R-R, no P waves, fibrillatory baseline), read by a single lime playhead.
 
 ## Commands
 
@@ -46,8 +53,8 @@ src/
 │   └── content.test.ts       # invariants (DOIs, URLs, slugs, ORCID, PhD-in-bio)
 ├── components/
 │   ├── sections/             # Hero · SelectedWork · Capabilities · Experience · Publications · Projects · Contact · Skills
-│   ├── ui/                   # Navigation · Footer · Button · Card · Badge · MonoLabel · IndexRow · SectionHeader · PageHeader · Reveal · Icons
-│   └── visuals/SignalField.tsx  # hero canvas (reduced-motion aware, paused offscreen)
+│   ├── ui/                   # Navigation · ThemeToggle · Footer · Button · Badge · MonoLabel · IndexRow · SectionHeader · PageHeader · IllustrationPlaceholder · Reveal · Icons
+│   └── visuals/SignalField.tsx  # hero canvas — AF-ECG resolving out of noise (reduced-motion aware, paused offscreen)
 └── lib/                      # design-tokens · motion · cn · constants
 ```
 
@@ -58,8 +65,16 @@ src/
 - **Electric Field rules**: one violet field (`.field` / `bg-field`) per view; lime
   (`text-lime`/`bg-lime`) is one charge per view and never a fill surface; mono labels for
   indices/captions; flat — no gradients or decorative shadows.
-- **Motion**: shared Framer variants in `src/lib/motion.ts`; `Reveal` wraps scroll-in
-  animations; everything degrades under `prefers-reduced-motion`.
+- **Accent-swap**: the context-aware `.text-accent` reads grape on paper, lime on the field/dark
+  (mirrors the focus-ring pattern). `.jp-mark` standardises the EN·JP secondary next to Latin;
+  `.section-y` is the shared vertical rhythm; `.ghost-numeral` counterweights section headers.
+- **Dark theme**: `ThemeToggle` flips `[data-theme="dark"]`; the dark map (bottom of `globals.css`)
+  puts the whole page on the grape field with lime accents. Light is default and untouched by it.
+- **Detail pages**: `/work/[slug]` and `/writing/[slug]` open with an `IllustrationPlaceholder`
+  hero slot — replace its inner block with a real drawing (an `<Image>`/`<img>` or inline SVG).
+- **Motion**: shared Framer variants in `src/lib/motion.ts`; `Reveal` wraps scroll-in animations.
+  The hero entrance is CSS (`.anim-rise`/`.anim-fade` in `globals.css`) so first paint is never
+  blank. Everything degrades under `prefers-reduced-motion`.
 - **Client vs server**: only stateful/animated leaves (`Hero`, `Experience`, `Publications`,
   `Navigation`, `Reveal`, `SignalField`) are `'use client'`; routes and most sections are server.
 
@@ -77,8 +92,10 @@ Edit the arrays under `src/content/`:
 ## Conventions & gotchas
 
 - **Before committing** a non-trivial change: `npm run lint && npm run typecheck && npm test && npm run build` all pass.
-- **Lime discipline**: never use `bg-lime` as a fill/marker dot or stack multiple lime accents in
-  one view. On field/footer (dark) sections the accent is the JA header text; markers use `bg-field`.
+- **Lime discipline**: lime never carries text on paper (~1.2:1 on bone). On light surfaces it
+  appears only as a *shape* (the section-index tick, marker dots, button fills) or a
+  *live/interaction* cue (the IndexRow hover sweep, the hero pulse, `::selection`). Text accents on
+  paper are grape via `.text-accent`; on the field/footer/dark the charge is lime.
 - **Focus rings** are context-aware in `globals.css`: ink on light surfaces, lime within `.field`
   and `footer`. Keep that when adding dark sections.
 - **Fonts**: only the `latin` subset is loaded for Zen Kaku Gothic New (perf). Japanese display

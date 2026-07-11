@@ -11,7 +11,7 @@ export default function Projects({ index = '02' }: { index?: string }) {
   const others = projects.filter((p) => !p.featured)
 
   return (
-    <section id="projects" className="py-20 md:py-28">
+    <section id="projects" className="section-y">
       <div className="section-container">
         <Reveal>
           <SectionHeader
@@ -37,7 +37,7 @@ export default function Projects({ index = '02' }: { index?: string }) {
                   href={p.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 font-mono text-label uppercase text-field hover:text-ink"
+                  className="mt-5 inline-flex items-center gap-2 font-mono text-label uppercase text-accent hover:text-ink"
                 >
                   <Icon name="github" className="h-4 w-4" />
                   Code
@@ -57,7 +57,7 @@ export default function Projects({ index = '02' }: { index?: string }) {
                 rel="noopener noreferrer"
                 className="group flex items-start gap-4 bg-chalk p-5 transition-colors hover:bg-mist"
               >
-                <span className="mt-0.5 text-haze transition-colors group-hover:text-field">
+                <span className="mt-0.5 text-haze transition-colors group-hover:text-accent">
                   <Icon name="github" className="h-5 w-5" />
                 </span>
                 <span>

@@ -16,8 +16,8 @@ export default function OpengraphImage() {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          background: '#7A35E0',
-          color: '#FAF9FB',
+          background: '#6A22D6',
+          color: '#F6F2EA',
           padding: '72px',
           fontFamily: 'sans-serif',
         }}
@@ -29,7 +29,7 @@ export default function OpengraphImage() {
             fontSize: 22,
             letterSpacing: 2,
             textTransform: 'uppercase',
-            color: 'rgba(250,249,251,0.8)',
+            color: 'rgba(246,242,234,0.8)',
           }}
         >
           <span>{profile.name}</span>
@@ -45,7 +45,7 @@ export default function OpengraphImage() {
           </div>
         </div>
 
-        <div style={{ fontSize: 22, color: 'rgba(250,249,251,0.7)' }}>{SITE.description}</div>
+        <div style={{ fontSize: 22, color: 'rgba(246,242,234,0.7)' }}>{SITE.description}</div>
       </div>
     ),
     { ...size },

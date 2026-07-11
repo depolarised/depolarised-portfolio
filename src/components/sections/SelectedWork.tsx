@@ -21,7 +21,7 @@ export default function SelectedWork({
   const list = items ?? workItems
 
   return (
-    <section id="work" className="py-20 md:py-28">
+    <section id="work" className="section-y">
       <div className="section-container">
         {withHeader && (
           <Reveal>

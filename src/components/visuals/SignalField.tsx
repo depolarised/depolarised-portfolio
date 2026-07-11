@@ -3,8 +3,11 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Hero visual for the violet field: a chalk signal that resolves out of noise,
- * with a single lime playhead reading across it (the one charge of lime).
+ * Hero visual for the violet field: a chalk ECG in atrial fibrillation that
+ * resolves out of noise, with a single lime playhead reading across it (the one
+ * charge of lime). AF is modelled honestly — no organised P waves, an irregular
+ * fibrillatory baseline, and irregularly-irregular R-R intervals with normal
+ * QRS+T morphology. Same animation as before; only the waveform is now cardiac.
  * Performance-minded — capped DPR, paused when offscreen/hidden — and fully
  * static under prefers-reduced-motion.
  */
@@ -17,10 +20,24 @@ export default function SignalField() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const COLS = 220
+    const COLS = 520
     // Stable per-column phase offsets for cheap, flicker-free value noise.
     const phaseA = Array.from({ length: COLS }, (_, i) => Math.sin(i * 12.9898) * 43758.5453 % 1)
     const phaseB = Array.from({ length: COLS }, (_, i) => Math.sin(i * 78.233) * 12543.123 % 1)
+
+    // Fixed R-peak positions across the trace, irregularly-irregular (AF).
+    // Deterministic jitter so the rhythm is stable across renders.
+    const beats: number[] = []
+    {
+      const jitter = (n: number) => Math.abs((Math.sin(n * 99.13) * 43758.5453) % 1)
+      let x = 0.03
+      let k = 0
+      while (x < 1.03) {
+        beats.push(x)
+        x += 0.1 + jitter(k) * 0.085
+        k++
+      }
+    }
 
     const reduce =
       typeof window !== 'undefined' &&
@@ -44,15 +61,29 @@ export default function SignalField() {
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
 
-    const CHALK = 'rgba(250, 249, 251, '
+    const CHALK = 'rgba(246, 242, 234, '
     const LIME = '#C6F24E'
 
-    // value of the clean signal at normalized x (0..1) and time t
+    // Gaussian bump.
+    const g = (d: number, w: number) => Math.exp(-(d * d) / (w * w))
+    // QRS + T morphology as a function of normalized-x distance from an R peak.
+    // No P wave (atrial fibrillation).
+    const complex = (d: number) =>
+      -0.1 * g(d + 0.008, 0.004) + // Q
+      0.95 * g(d, 0.004) + //         R
+      -0.26 * g(d - 0.009, 0.0045) + // S
+      0.2 * g(d - 0.042, 0.017) //    T
+
+    // value of the clean AF ECG at normalized x (0..1) and time t
     const signal = (nx: number, t: number) => {
-      const a = Math.sin(nx * Math.PI * 4 + t * 0.6)
-      const b = Math.sin(nx * Math.PI * 9 - t * 0.9) * 0.35
-      const c = Math.sin(nx * Math.PI * 2 + t * 0.3) * 0.5
-      return (a + b + c) / 1.85
+      // Fibrillatory baseline — chaotic low-amplitude f-waves that replace the
+      // flat isoelectric line and organised P waves. Shimmers gently with t.
+      let v =
+        0.045 * Math.sin(nx * 120 + t * 0.8) +
+        0.03 * Math.sin(nx * 190 - t * 0.6) +
+        0.022 * Math.sin(nx * 85 + t * 0.4)
+      for (let b = 0; b < beats.length; b++) v += complex(nx - beats[b])
+      return v
     }
 
     const noiseAt = (i: number, t: number) =>
@@ -64,7 +95,7 @@ export default function SignalField() {
       const midY = height / 2
       const amp = Math.min(height * 0.28, 150)
 
-      // chalk signal line
+      // chalk ECG line
       ctx.lineWidth = 1.5
       ctx.lineJoin = 'round'
       ctx.beginPath()
@@ -148,7 +179,7 @@ export default function SignalField() {
       ref={canvasRef}
       className="h-full w-full"
       role="img"
-      aria-label="An abstract signal resolving out of noise."
+      aria-label="An electrocardiogram in atrial fibrillation, resolving out of noise."
     />
   )
 }

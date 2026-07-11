@@ -28,6 +28,7 @@ const config: Config = {
         label: ['0.6875rem', { lineHeight: '1', letterSpacing: '0.14em' }],
       },
       maxWidth: { content: '1120px' },
+      spacing: { section: '7rem', 'section-sm': '5rem', seam: '3.5rem' },
       transitionTimingFunction: {
         reveal: 'cubic-bezier(0.16, 1, 0.3, 1)',
         move: 'cubic-bezier(0.65, 0, 0.35, 1)',

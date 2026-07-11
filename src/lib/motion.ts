@@ -3,7 +3,7 @@ import { easing, duration } from './design-tokens'
 
 /** Standard reveal: fade + short rise on a calm expo-out curve. */
 export const reveal: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 12 },
   show: {
     opacity: 1,
     y: 0,
@@ -19,11 +19,11 @@ export const revealStagger = (stagger: number = duration.stagger): Variants => (
 
 /** Child item used inside a revealStagger container. */
 export const revealItem: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 10 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: easing.reveal },
+    transition: { duration: 0.45, ease: easing.reveal },
   },
 }
 

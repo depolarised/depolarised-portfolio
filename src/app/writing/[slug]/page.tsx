@@ -5,6 +5,7 @@ import { notes } from '@/content/writing'
 import { MonoLabel } from '@/components/ui/MonoLabel'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icons'
+import { IllustrationPlaceholder } from '@/components/ui/IllustrationPlaceholder'
 
 export function generateStaticParams() {
   return notes.map((note) => ({ slug: note.slug }))
@@ -42,6 +43,9 @@ export default function WritingNote({ params }: { params: { slug: string } }) {
       </section>
 
       <section className="py-16 md:py-24">
+        <div className="section-container mb-12 max-w-2xl">
+          <IllustrationPlaceholder caption={note.title} />
+        </div>
         <div className="section-container max-w-2xl">
           {note.body.map((para, i) => (
             <p key={i} className="mt-6 text-body-lg leading-relaxed text-ink first:mt-0">

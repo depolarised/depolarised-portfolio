@@ -13,7 +13,7 @@ const openTo = [
 
 export default function Contact({ index = '03' }: { index?: string }) {
   return (
-    <section id="contact" className="py-20 md:py-28">
+    <section id="contact" className="section-y">
       <div className="section-container">
         <Reveal>
           <SectionHeader
@@ -34,7 +34,7 @@ export default function Contact({ index = '03' }: { index?: string }) {
                 rel={link.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                 className="group flex items-start gap-4 bg-chalk p-5 transition-colors hover:bg-mist"
               >
-                <span className="mt-0.5 text-haze transition-colors group-hover:text-field">
+                <span className="mt-0.5 text-haze transition-colors group-hover:text-accent">
                   <Icon name={link.icon} className="h-5 w-5" />
                 </span>
                 <span className="min-w-0">
@@ -48,11 +48,11 @@ export default function Contact({ index = '03' }: { index?: string }) {
           </Reveal>
 
           <Reveal delay={0.05}>
-            <h3 className="font-mono text-label uppercase text-field">Open to</h3>
+            <h3 className="font-mono text-label uppercase text-accent">Open to</h3>
             <ul className="mt-5 space-y-4">
               {openTo.map((item) => (
                 <li key={item} className="flex gap-3 text-ink">
-                  <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-field" />
+                  <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-lime" />
                   <span className="leading-relaxed">{item}</span>
                 </li>
               ))}

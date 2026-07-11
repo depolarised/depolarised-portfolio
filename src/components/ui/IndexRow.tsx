@@ -26,7 +26,14 @@ export function IndexRow({
     >
       <div className="flex items-baseline gap-4">
         <span className="font-mono text-label text-haze">{index}</span>
-        <span className="font-display text-h2 text-ink transition-colors group-hover:text-field">
+        <span
+          className={cn(
+            'font-display text-h2 text-ink transition-[background-size] duration-300',
+            // A lime rule sweeps left→right under the title on hover — the lime "live" cue on paper.
+            'bg-[linear-gradient(var(--lime),var(--lime))] bg-[length:0px_3px] bg-left-bottom bg-no-repeat',
+            'group-hover:bg-[length:100%_3px]',
+          )}
+        >
           {title}
         </span>
       </div>
@@ -39,7 +46,7 @@ export function IndexRow({
         <span className="font-mono text-label text-haze">{meta}</span>
         <Icon
           name="arrow"
-          className="h-4 w-4 -translate-x-1 text-haze opacity-0 transition-all group-hover:translate-x-0 group-hover:text-field group-hover:opacity-100"
+          className="h-4 w-4 -translate-x-1 text-haze opacity-0 transition-all group-hover:translate-x-0 group-hover:text-accent group-hover:opacity-100"
         />
       </div>
     </Link>

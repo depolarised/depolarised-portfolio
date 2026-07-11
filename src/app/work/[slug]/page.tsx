@@ -6,6 +6,7 @@ import { MonoLabel } from '@/components/ui/MonoLabel'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icons'
+import { IllustrationPlaceholder } from '@/components/ui/IllustrationPlaceholder'
 
 export function generateStaticParams() {
   return workItems.map((item) => ({ slug: item.slug }))
@@ -35,12 +36,12 @@ export default function WorkCaseStudy({ params }: { params: { slug: string } }) 
           <MonoLabel className="mt-8 block text-chalk/70">
             {item.role} · {item.organization} · {item.period}
           </MonoLabel>
-          <h1 className="mt-4 font-display text-display text-chalk">
-            {item.title}
-            {item.titleJa && (
-              <span className="ml-3 align-middle text-lime">{item.titleJa}</span>
-            )}
-          </h1>
+          <h1 className="mt-4 font-display text-display text-chalk">{item.title}</h1>
+          {item.titleJa && (
+            <p className="mt-3 font-display text-h2 font-normal tracking-[0.04em] text-accent">
+              {item.titleJa}
+            </p>
+          )}
           <p className="mt-5 max-w-2xl text-body-lg leading-relaxed text-chalk/85">
             {item.tagline}
           </p>
@@ -48,16 +49,19 @@ export default function WorkCaseStudy({ params }: { params: { slug: string } }) 
       </section>
 
       <section className="py-16 md:py-24">
+        <div className="section-container mb-14 md:mb-16">
+          <IllustrationPlaceholder caption={item.title} />
+        </div>
         <div className="section-container grid gap-12 lg:grid-cols-[1.4fr_1fr]">
           <div>
             <p className="font-display text-h2 leading-snug text-ink">{item.summary}</p>
 
             <div className="mt-12">
-              <MonoLabel className="text-field">What I do</MonoLabel>
+              <MonoLabel className="text-accent">What I do</MonoLabel>
               <ul className="mt-5 space-y-3">
                 {item.contributions.map((c) => (
                   <li key={c} className="flex gap-3 leading-relaxed text-ink">
-                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-field" />
+                    <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-lime" />
                     {c}
                   </li>
                 ))}
@@ -67,7 +71,7 @@ export default function WorkCaseStudy({ params }: { params: { slug: string } }) 
 
           <aside className="space-y-10">
             <div>
-              <MonoLabel className="text-field">Context</MonoLabel>
+              <MonoLabel className="text-accent">Context</MonoLabel>
               <ul className="mt-5 space-y-3">
                 {item.context.map((c) => (
                   <li key={c} className="flex gap-3 text-sm leading-relaxed text-haze">
@@ -79,7 +83,7 @@ export default function WorkCaseStudy({ params }: { params: { slug: string } }) 
             </div>
 
             <div>
-              <MonoLabel className="text-field">Stack</MonoLabel>
+              <MonoLabel className="text-accent">Stack</MonoLabel>
               <div className="mt-5 flex flex-wrap gap-2">
                 {item.stack.map((s) => (
                   <Badge key={s}>{s}</Badge>
@@ -89,7 +93,7 @@ export default function WorkCaseStudy({ params }: { params: { slug: string } }) 
 
             {item.links && item.links.length > 0 && (
               <div>
-                <MonoLabel className="text-field">Links</MonoLabel>
+                <MonoLabel className="text-accent">Links</MonoLabel>
                 <ul className="mt-5 space-y-2">
                   {item.links.map((l) => (
                     <li key={l.href}>
@@ -97,7 +101,7 @@ export default function WorkCaseStudy({ params }: { params: { slug: string } }) 
                         href={l.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-field hover:text-ink"
+                        className="inline-flex items-center gap-2 text-sm text-accent hover:text-ink"
                       >
                         <Icon name="external" className="h-3.5 w-3.5" />
                         {l.label}

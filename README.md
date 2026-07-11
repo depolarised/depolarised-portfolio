@@ -1,14 +1,16 @@
 # ioannis.dev
 
-Personal site of **Ioannis Valasakis** — a research engineer working at the intersection of
+Personal site of **Dr Ioannis Valasakis** — a research engineer working at the intersection of
 **signal processing, deep learning, and large-scale data systems**. (PhD in computational
 neuroscience; that's past depth, not the current positioning.)
 
 **Live:** [ioannis.dev](https://ioannis.dev) · **Stack:** Next.js 14 (App Router) · TypeScript ·
 Tailwind CSS · Framer Motion · Vitest
 
-Visual system — **Electric Field**: one saturated violet field per view, a single lime charge,
-heavy bilingual (EN·JP) display type, generous negative space, flat (no decorative shadows).
+Visual system — **Electric Field** (Electric Grape palette): one saturated violet field per view,
+a single lime charge, heavy bilingual (EN·JP) display type, generous negative space, flat (no
+decorative shadows). Light default + a **dark theme** toggle. The hero canvas is a chalk
+**atrial-fibrillation ECG** resolving out of noise, read by a lime playhead.
 
 ## Quick start
 
@@ -56,16 +58,18 @@ consumed by `tailwind.config.ts` and mirrored as CSS variables in `globals.css`.
 
 | Token | Hex | Role |
 | --- | --- | --- |
-| Violet — Field | `#7A35E0` | primary surface, hero/section fields, key CTAs |
+| Grape — Field | `#6A22D6` | primary surface, hero/section fields, key CTAs |
 | Lime — Pop | `#C6F24E` | one charge per view — never a surface |
-| Ink | `#14121A` | text on light, deep base |
-| Haze | `#5A5270` | muted text, metadata, hairlines |
-| Mist | `#ECEAF0` | light surface, cards, dividers |
-| Chalk | `#FAF9FB` | page base, text on the field |
+| Ink | `#171320` | text on light, deep base |
+| Haze | `#5C5568` | muted text, metadata, hairlines |
+| Mist | `#EAE5DC` | warm light surface, cards, dividers |
+| Chalk | `#F6F2EA` | warm bone page base, text on the field |
 
 Type: **Zen Kaku Gothic New** (display) · **Hanken Grotesk** (body/UI) · **IBM Plex Mono** (labels).
 Principles: one field per view · type as image · one charge of lime · generous negative space ·
-flat. Everything degrades under `prefers-reduced-motion`.
+flat. A **dark theme** (`ThemeToggle` → `[data-theme="dark"]`) puts the whole page on the grape
+field; the context-aware `.text-accent` reads grape on paper, lime on the field/dark. Everything
+degrades under `prefers-reduced-motion`.
 
 ## Editing content
 

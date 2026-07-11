@@ -24,7 +24,7 @@ export default function AboutPage() {
         description={profile.summary}
       />
 
-      <section className="py-20 md:py-28">
+      <section className="section-y">
         <div className="section-container max-w-3xl">
           {profile.bio.map((para, i) => (
             <p

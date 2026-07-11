@@ -18,7 +18,7 @@ export function PageHeader({
         <MonoLabel className="text-chalk/70">{label}</MonoLabel>
         <h1 className="mt-4 font-display text-display text-chalk">
           {title}
-          {titleJa && <span className="ml-3 align-middle text-lime">{titleJa}</span>}
+          {titleJa && <span className="jp-mark text-accent">{titleJa}</span>}
         </h1>
         {description && (
           <p className="mt-5 max-w-2xl text-body-lg leading-relaxed text-chalk/85">

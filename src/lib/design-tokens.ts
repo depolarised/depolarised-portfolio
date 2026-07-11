@@ -1,22 +1,31 @@
 /**
- * Electric Field — the single source of design tokens.
+ * Electric Grape — the single source of design tokens.
  *
- * Palette + type roles sampled from the "Electric Field" system (monopo register):
- * one saturated violet field carries identity, a single lime charge per view,
- * ink/haze/mist/chalk for everything else. Consumed by tailwind.config.ts
- * (colours, fonts) and mirrored as CSS variables in globals.css.
+ * One deep, saturated electric-grape field carries identity, a single lime charge
+ * per view, ink/haze/warm-neutrals for everything else. The electric energy, on a
+ * warm bone paper so it reads confident rather than clinical. Consumed by
+ * tailwind.config.ts (colours, fonts) and mirrored as CSS variables in globals.css.
+ *
+ * Accent-swap rule: the charge is lime on the field/dark, grape on paper.
+ * See the context-aware `.text-accent` class in globals.css.
+ *
+ * Lime on paper: lime is ~1.2:1 on bone, so on light surfaces it never carries
+ * text — it works only as a *shape* (marker dots, the section-index tick) or a
+ * *live/interaction* cue (hover sweeps, the hero "open" pulse, ::selection).
+ * Text-coloured accents on paper are grape via `.text-accent`; lime stays the
+ * spark. Keep that split when adding light-surface accents.
  */
 
 export const colors = {
-  // The field — one saturated violet owns each hero/section.
-  field: { DEFAULT: '#7A35E0', deep: '#5A24B0', lift: '#9A63F0' },
-  // The single charge — a spark, never a surface.
+  // The field — one deep, saturated electric grape owns each hero/field moment.
+  field: { DEFAULT: '#6A22D6', deep: '#4E1A9E', lift: '#894BEE' },
+  // The single charge — a lime spark, never a surface.
   lime: '#C6F24E',
   // Neutrals.
-  ink: '#14121A', // text on light, deep base, full-bleed dark
-  haze: '#5A5270', // muted text, metadata, captions, hairlines
-  mist: '#ECEAF0', // light surface, cards, dividers
-  chalk: '#FAF9FB', // page base, text on the field
+  ink: '#171320', // text on paper, deep base, full-bleed dark
+  haze: '#5C5568', // muted text, metadata, captions, hairlines
+  mist: '#EAE5DC', // warm light surface, cards, dividers
+  chalk: '#F6F2EA', // warm bone paper, text on the field
 }
 
 export const fontFamily = {

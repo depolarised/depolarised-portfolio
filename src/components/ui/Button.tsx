@@ -8,7 +8,7 @@ const variants: Record<Variant, string> = {
   primary: 'btn-primary',
   secondary: 'btn-secondary',
   onField: 'btn-on-field',
-  ghost: 'inline-flex items-center gap-2 font-sans font-bold text-ink hover:text-field',
+  ghost: 'inline-flex items-center gap-2 font-sans font-bold text-ink hover:text-accent',
 }
 
 export function Button({

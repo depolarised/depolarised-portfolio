@@ -2,16 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Electric Field palette — mirrored from src/lib/design-tokens.ts for raw CSS / canvas. */
+/* Electric Grape palette — mirrored from src/lib/design-tokens.ts for raw CSS / canvas. */
 :root {
-  --field: #7a35e0;
-  --field-deep: #5a24b0;
-  --field-lift: #9a63f0;
+  --field: #6a22d6;
+  --field-deep: #4e1a9e;
+  --field-lift: #894bee;
   --lime: #c6f24e;
-  --ink: #14121a;
-  --haze: #5a5270;
-  --mist: #eceaf0;
-  --chalk: #faf9fb;
+  --ink: #171320;
+  --haze: #5c5568;
+  --mist: #eae5dc;
+  --chalk: #f6f2ea;
 }
 
 @layer base {
@@ -52,6 +52,70 @@
   .mono-label {
     @apply font-mono text-label uppercase text-haze;
   }
+
+  /* Context-aware accent (the "charge"): grape on paper, lime on the field /
+     in dark. Mirrors the focus-ring context pattern. Lime never carries text on
+     paper (too low-contrast) — there it only appears as a shape or a live cue. */
+  .text-accent {
+    color: var(--field);
+  }
+  .field .text-accent {
+    color: var(--lime);
+  }
+
+  /* Vertical rhythm — asymmetric (more lead-in above a heading than trail-out
+     below) so consecutive sections don't sum to a cavernous gap. */
+  .section-y {
+    @apply pt-24 pb-20 md:pt-28 md:pb-24;
+  }
+
+  /* Bilingual display: the JP mark is a deliberate secondary next to Latin.
+     The loaded subset is Latin-only, so JP renders in the system gothic (heavy);
+     normalise weight/size and never let a run break mid-glyph. */
+  .jp-mark {
+    margin-left: 0.5rem;
+    font-weight: 400;
+    font-size: 0.6em;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    vertical-align: 0.08em;
+  }
+
+  /* Editorial counterweight for a section header's empty right half (lg only). */
+  .ghost-numeral {
+    color: rgb(23 19 32 / 0.055);
+  }
+}
+
+/* First paint must never be a frozen empty stage: the hero rises via CSS from
+   the very first frame (no wait for JS to hydrate), and degrades under the
+   prefers-reduced-motion block below. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.anim-rise {
+  animation: rise 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.anim-fade {
+  animation: fade 1s ease both;
+}
+
+@layer components {
 
   /* Commit fully to the field. */
   .field {
@@ -115,65 +179,69 @@
 }
 
 /* ============================================================
-   Dark theme — the whole page lives on the field: violet base,
-   chalk text, lime accents, chalk hairlines.
+   Dark theme — the whole page lives on the field: grape base,
+   paper text, lime accents, paper hairlines.
    Toggled by ThemeToggle (sets [data-theme="dark"] on <html>).
    Light is the default and is untouched by everything below.
    ============================================================ */
 
 /* page base + section surfaces */
 [data-theme='dark'] body {
-  background: #7a35e0;
-  color: #faf9fb;
+  background: #6a22d6;
+  color: #f6f2ea;
 }
 [data-theme='dark'] .bg-chalk {
-  background-color: #5a24b0;
+  background-color: #4e1a9e;
 } /* cards, panels, mobile menu */
 [data-theme='dark'] .bg-chalk\/90 {
-  background-color: rgba(90, 36, 176, 0.85);
+  background-color: rgba(78, 26, 158, 0.85);
 } /* sticky nav */
 [data-theme='dark'] .bg-mist {
-  background-color: #5a24b0;
+  background-color: #4e1a9e;
 }
 [data-theme='dark'] .hover\:bg-mist:hover {
-  background-color: #6e3ad0;
+  background-color: #5f27c4;
 }
 [data-theme='dark'] .bg-ink\/10 {
-  background-color: rgba(250, 249, 251, 0.16);
+  background-color: rgba(246, 242, 234, 0.16);
 } /* grid gap hairlines */
 [data-theme='dark'] .field {
-  background-color: #5a24b0;
-} /* field sections deepen on the violet base */
+  background-color: #4e1a9e;
+} /* field sections deepen on the grape base */
 
 /* text */
 [data-theme='dark'] .text-ink,
 [data-theme='dark'] .hover\:text-ink:hover,
 [data-theme='dark'] .group:hover .group-hover\:text-field {
-  color: #faf9fb;
+  color: #f6f2ea;
 }
 [data-theme='dark'] .text-haze,
 [data-theme='dark'] .mono-label {
-  color: rgba(250, 249, 251, 0.72);
+  color: rgba(246, 242, 234, 0.72);
 }
 [data-theme='dark'] .text-field,
-[data-theme='dark'] .hover\:text-field:hover {
+[data-theme='dark'] .hover\:text-field:hover,
+[data-theme='dark'] .text-accent {
   color: #c6f24e;
 }
 [data-theme='dark'] .group:hover .group-hover\:text-field {
   color: #c6f24e;
+}
+[data-theme='dark'] .ghost-numeral {
+  color: rgb(246 242 234 / 0.08);
 }
 
 /* hairlines */
 [data-theme='dark'] .border-ink\/10,
 [data-theme='dark'] .border-ink\/12,
 [data-theme='dark'] .border-ink\/15 {
-  border-color: rgba(250, 249, 251, 0.16);
+  border-color: rgba(246, 242, 234, 0.16);
 }
 [data-theme='dark'] .border-ink\/20 {
-  border-color: rgba(250, 249, 251, 0.24);
+  border-color: rgba(246, 242, 234, 0.24);
 }
 [data-theme='dark'] .hover\:border-ink\/40:hover {
-  border-color: rgba(250, 249, 251, 0.45);
+  border-color: rgba(246, 242, 234, 0.45);
 }
 
 /* lime as the accent surface for markers / wordmarks / active controls */
@@ -181,27 +249,27 @@
   background-color: #c6f24e;
 }
 [data-theme='dark'] .bg-field.text-chalk {
-  color: #14121a;
+  color: #171320;
 }
 
 /* buttons */
 [data-theme='dark'] .btn-primary {
   background-color: #c6f24e;
-  color: #14121a;
+  color: #171320;
 }
 [data-theme='dark'] .btn-primary:hover {
   background-color: #d4ff63;
 }
 [data-theme='dark'] .btn-secondary {
-  border-color: #faf9fb;
-  color: #faf9fb;
+  border-color: #f6f2ea;
+  color: #f6f2ea;
 }
 [data-theme='dark'] .btn-secondary:hover {
-  background-color: #faf9fb;
-  color: #14121a;
+  background-color: #f6f2ea;
+  color: #171320;
 }
 
-/* keep the focus ring lime on the violet base */
+/* keep the focus ring lime on the grape base */
 [data-theme='dark'] :focus-visible {
   outline-color: #c6f24e;
 }

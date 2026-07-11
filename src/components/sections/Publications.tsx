@@ -26,7 +26,7 @@ export default function Publications({ index = '03' }: { index?: string }) {
   const list = publications.filter((p) => filter === 'all' || p.type === filter)
 
   return (
-    <section id="publications" className="py-20 md:py-28">
+    <section id="publications" className="section-y">
       <div className="section-container">
         <Reveal>
           <SectionHeader
@@ -79,7 +79,7 @@ export default function Publications({ index = '03' }: { index?: string }) {
                     href={`https://doi.org/${pub.doi}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-flex items-center gap-2 font-mono text-label uppercase text-field hover:text-ink"
+                    className="mt-3 inline-flex items-center gap-2 font-mono text-label uppercase text-accent hover:text-ink"
                   >
                     <Icon name="external" className="h-3.5 w-3.5" />
                     doi: {pub.doi}
