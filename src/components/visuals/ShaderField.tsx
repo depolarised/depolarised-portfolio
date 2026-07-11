@@ -5,17 +5,18 @@ import { useEffect, useRef } from 'react'
 /**
  * Iridescent signal field — a raw-WebGL fragment shader (no external libs).
  *
- * Rest state: a calm, flowing violet field with horizontal waveform striations
- * and a lime "playhead" sweeping across it (the ECG/signal motif) in the
- * Electric Grape palette. Interaction: the pointer injects a velocity-driven
- * energy that inflates the warp, ripples the surface around the cursor, and
- * splits the RGB channels into a chromatic-aberration shimmer along the edges —
- * pump it by moving fast, and it deflates back to rest as the energy decays.
- * (Modelled on ochyai.dev's mouse-reactive field.)
+ * Rest state: a calm, centred, flowing violet field with faint waveform
+ * striations in the Electric Grape palette. Interaction (modelled on
+ * ochyai.dev): the composition stays anchored — the pointer never translates or
+ * dents it. Pointer *velocity* builds a smoothed energy that fades back to rest
+ * and drives a chromatic-aberration shimmer (RGB channel split) along the
+ * edges; horizontal pointer position gives a gentle sheen-hue shift. Move fast
+ * → it shimmers; stop → it settles.
  *
- * Performance-minded — capped DPR, paused when hidden. Static under
- * prefers-reduced-motion (energy pinned to 0). Degrades to the wrapper's flat
- * violet if WebGL is unavailable.
+ * `recede` (home use): dims toward the flat grape field as the page scrolls, so
+ * content below stays legible. Performance-minded — capped DPR, paused when
+ * hidden. Static under prefers-reduced-motion. Flat-violet fallback if WebGL is
+ * unavailable.
  */
 const VERT = `
 attribute vec2 p;
@@ -27,8 +28,9 @@ precision highp float;
 uniform vec2 u_res;
 uniform float u_time;
 uniform float u_intro;  // 0..1 resolve-from-noise
-uniform vec2 u_mouse;   // smoothed pointer, -1..1 across the viewport
-uniform float u_energy; // pointer-velocity energy, ~0 at rest
+uniform vec2 u_mouse;   // smoothed pointer, -1..1 (sheen-hue only; no translation)
+uniform float u_energy; // smoothed pointer-velocity energy, ~0 at rest
+uniform float u_recede; // 0 at top -> 1 scrolled (home only)
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 345.45));
@@ -60,58 +62,44 @@ vec3 ramp(float f) {
   return col;
 }
 
-// Full iridescent signal-field colour at position p.
-vec3 shade(vec2 p, float t, vec2 m, float en) {
-  // pointer ripple — the surface inflates around the cursor, settles at rest
-  vec2 toM = p - m;
-  float d = length(toM);
-  float ripple = sin(d * 13.0 - t * 3.0) * exp(-d * 2.2) * (0.015 + 0.14 * en);
-  p += (toM / (d + 0.001)) * ripple;
-
-  float amp = 1.0 + 0.7 * en;               // energy inflates the warp
+// Full iridescent signal-field colour at position p. Anchored — no pointer
+// displacement; energy only intensifies the sheen shimmer.
+vec3 shade(vec2 p, float t, float en) {
   vec2 q = vec2(fbm(p * 1.4 + vec2(0.0, 0.05 * t)),
                 fbm(p * 1.4 + vec2(3.2, -0.05 * t)));
-  float f = fbm(p * 1.4 + 1.7 * amp * q);
+  float f = fbm(p * 1.4 + 1.7 * q);
   f += 0.10 * sin(p.y * 7.0 + f * 3.0 + t * 0.5); // horizontal signal striations
 
   vec3 col = ramp(f);
 
-  // thin-film sheen along the flowing rims
+  // thin-film sheen along the flowing rims; horizontal pointer shifts its hue,
+  // velocity energy makes it shimmer harder.
   float e = length(q - 0.5) * 1.6;
-  float sheen = smoothstep(0.35, 0.95, e);
-  vec3 irid = 0.12 * cos(6.28318 * ((f * 2.2 + 0.12 * t) + vec3(0.0, 0.33, 0.66)));
+  float sheen = smoothstep(0.35, 0.95, e) * (1.0 + 0.8 * en);
+  vec3 irid = 0.12 * cos(6.28318 * ((f * 2.2 + 0.12 * t + u_mouse.x * 0.4) + vec3(0.0, 0.33, 0.66)));
   col += irid * sheen;
   return col;
 }
 
 void main() {
   vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / u_res.y;
-  float aspect = u_res.x / u_res.y;
   float t = u_time;
-  vec2 m = vec2(u_mouse.x * 0.5 * aspect, -u_mouse.y * 0.5);
   float en = u_energy;
 
-  // Chromatic aberration — RGB channels realign at rest, split with energy and
-  // proximity to the cursor (the iridescent glitch along the edges).
-  vec2 toM = uv - m;
-  float prox = smoothstep(1.3, 0.0, length(toM));
-  vec2 dir = toM / (length(toM) + 0.001);
-  float off = 0.0016 + (0.006 + 0.030 * en) * (0.35 + 0.65 * prox);
-  vec3 cR = shade(uv + dir * off, t, m, en);
-  vec3 cG = shade(uv, t, m, en);
-  vec3 cB = shade(uv - dir * off, t, m, en);
+  // Chromatic aberration — horizontal RGB split, realigned at rest, widening
+  // with pointer velocity. Anchored: no cursor hotspot, no translation.
+  float off = 0.0014 + 0.035 * en;
+  vec3 cR = shade(uv + vec2(off, 0.0), t, en);
+  vec3 cG = shade(uv, t, en);
+  vec3 cB = shade(uv - vec2(off, 0.0), t, en);
   vec3 col = vec3(cR.r, cG.g, cB.b);
-
-  // Traveling heartbeat playhead — a lime charge sweeping the signal field.
-  float sweep = fract(t * 0.05 + 0.02 * sin(t * 0.6));
-  float px = mix(-aspect * 0.55, aspect * 0.55, sweep);
-  float dpx = (uv.x - px) / 0.018;
-  float pulse = exp(-dpx * dpx);
-  col += pulse * vec3(0.78, 0.95, 0.31) * 0.16;
 
   // resolve out of noise on load
   float n = hash(gl_FragCoord.xy * 0.5 + vec2(u_time));
   col = mix(mix(vec3(0.09, 0.04, 0.26), vec3(n), 0.5), col, u_intro);
+
+  // recede toward the flat grape field as the page scrolls (home)
+  col = mix(col, vec3(0.416, 0.133, 0.839), u_recede * 0.85);
 
   // gentle vignette so text sits calmly over it
   float v = smoothstep(1.4, 0.1, length(uv));
@@ -134,7 +122,7 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   return sh
 }
 
-export default function ShaderField() {
+export default function ShaderField({ recede = false }: { recede?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -173,6 +161,7 @@ export default function ShaderField() {
     const uIntro = gl.getUniformLocation(prog, 'u_intro')
     const uMouse = gl.getUniformLocation(prog, 'u_mouse')
     const uEnergy = gl.getUniformLocation(prog, 'u_energy')
+    const uRecede = gl.getUniformLocation(prog, 'u_recede')
 
     gl.clearColor(0.09, 0.04, 0.26, 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
@@ -189,6 +178,18 @@ export default function ShaderField() {
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
 
+    let recedeVal = 0
+    const onScroll = recede
+      ? () => {
+          const vh = window.innerHeight || 800
+          recedeVal = Math.min(Math.max(window.scrollY / (vh * 0.85), 0), 1)
+        }
+      : null
+    if (onScroll) {
+      onScroll()
+      window.addEventListener('scroll', onScroll, { passive: true })
+    }
+
     const reduce =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -196,22 +197,27 @@ export default function ShaderField() {
     if (reduce) {
       gl.uniform2f(uMouse, 0, 0)
       gl.uniform1f(uEnergy, 0)
+      gl.uniform1f(uRecede, recedeVal)
       gl.uniform1f(uTime, 12.0)
       gl.uniform1f(uIntro, 1)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
-      return () => ro.disconnect()
+      return () => {
+        ro.disconnect()
+        if (onScroll) window.removeEventListener('scroll', onScroll)
+      }
     }
 
-    // Smoothed pointer + velocity-driven energy that decays back to rest.
+    // Smoothed pointer + smoothed velocity energy (gentle rise and fall).
     const mouse = { x: 0, y: 0 }
     const target = { x: 0, y: 0 }
     const lastPos = { x: 0, y: 0 }
-    let energy = 0
+    let energy = 0 // raw accumulator (decays)
+    let energyUsed = 0 // extra-smoothed value sent to the GPU
     let havePos = false
     const onMove = (e: PointerEvent) => {
       const nx = (e.clientX / window.innerWidth) * 2 - 1
       const ny = (e.clientY / window.innerHeight) * 2 - 1
-      if (havePos) energy = Math.min(energy + Math.hypot(nx - lastPos.x, ny - lastPos.y) * 3.0, 1.6)
+      if (havePos) energy = Math.min(energy + Math.hypot(nx - lastPos.x, ny - lastPos.y) * 1.5, 1.1)
       lastPos.x = nx
       lastPos.y = ny
       target.x = nx
@@ -228,11 +234,13 @@ export default function ShaderField() {
       const t = (now - start) / 1000
       const intro = Math.min(t / 2.0, 1)
       const eased = 1 - Math.pow(1 - intro, 3)
-      mouse.x += (target.x - mouse.x) * 0.08
-      mouse.y += (target.y - mouse.y) * 0.08
-      energy *= 0.95 // deflate back to rest
+      mouse.x += (target.x - mouse.x) * 0.06
+      mouse.y += (target.y - mouse.y) * 0.06
+      energy *= 0.93 // decay
+      energyUsed += (energy - energyUsed) * 0.2 // smooth rise & fall
       gl.uniform2f(uMouse, mouse.x, mouse.y)
-      gl.uniform1f(uEnergy, energy)
+      gl.uniform1f(uEnergy, energyUsed)
+      gl.uniform1f(uRecede, recedeVal)
       gl.uniform1f(uTime, t)
       gl.uniform1f(uIntro, eased)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
@@ -255,6 +263,7 @@ export default function ShaderField() {
       running = false
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
+      if (onScroll) window.removeEventListener('scroll', onScroll)
       document.removeEventListener('visibilitychange', onVisibility)
       ro.disconnect()
       gl.deleteProgram(prog)
@@ -262,14 +271,14 @@ export default function ShaderField() {
       gl.deleteShader(fs)
       gl.deleteBuffer(buf)
     }
-  }, [])
+  }, [recede])
 
   return (
     <canvas
       ref={canvasRef}
       className="h-full w-full"
       role="img"
-      aria-label="An iridescent signal field in violet with a lime playhead; it ripples and splits colour under the cursor."
+      aria-label="An iridescent violet signal field that shimmers under the cursor."
     />
   )
 }

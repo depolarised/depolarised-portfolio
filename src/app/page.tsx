@@ -1,4 +1,4 @@
-import SignalBackdrop from '@/components/visuals/SignalBackdrop'
+import ShaderBackdrop from '@/components/visuals/ShaderBackdrop'
 import Hero from '@/components/sections/Hero'
 import SelectedWork from '@/components/sections/SelectedWork'
 import Capabilities from '@/components/sections/Capabilities'
@@ -9,9 +9,9 @@ import { workItems } from '@/content/work'
 export default function Home() {
   return (
     <>
-      {/* The single canvas: one fixed violet field + AF-ECG the page scrolls
+      {/* The single canvas: one fixed iridescent violet field the page scrolls
           over, receding as you go. Everything below sits on it, transparent. */}
-      <SignalBackdrop />
+      <ShaderBackdrop recede />
       <Hero />
       <SelectedWork
         index="01"
