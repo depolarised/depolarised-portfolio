@@ -24,6 +24,7 @@ uniform float u_time;
 uniform float u_intro;
 uniform vec2 u_mouse;
 uniform float u_energy;
+uniform float u_recede; // 0 at top -> 1 scrolled (home only)
 
 const vec3 DEEP = vec3(0.09, 0.04, 0.26);
 
@@ -76,6 +77,7 @@ void main(){
   vec3 col = vec3(cR.r, cG.g, cB.b);
   float n = hash(gl_FragCoord.xy * 0.5 + vec2(u_time));
   col = mix(mix(DEEP, vec3(n), 0.5), col, u_intro);
+  col = mix(col, vec3(0.416, 0.133, 0.839), u_recede * 0.85); // recede to flat grape
   float v = smoothstep(1.5, 0.1, length(uv));
   col *= 0.82 + 0.18 * v;
   gl_FragColor = vec4(col, 1.0);
@@ -95,7 +97,7 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
   return sh
 }
 
-export default function LabShader() {
+export default function LabShader({ recede = false }: { recede?: boolean }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -134,6 +136,7 @@ export default function LabShader() {
     const uIntro = gl.getUniformLocation(prog, 'u_intro')
     const uMouse = gl.getUniformLocation(prog, 'u_mouse')
     const uEnergy = gl.getUniformLocation(prog, 'u_energy')
+    const uRecede = gl.getUniformLocation(prog, 'u_recede')
 
     gl.clearColor(0.09, 0.04, 0.26, 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
@@ -150,16 +153,32 @@ export default function LabShader() {
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
 
+    let recedeVal = 0
+    const onScroll = recede
+      ? () => {
+          const vh = window.innerHeight || 800
+          recedeVal = Math.min(Math.max(window.scrollY / (vh * 0.85), 0), 1)
+        }
+      : null
+    if (onScroll) {
+      onScroll()
+      window.addEventListener('scroll', onScroll, { passive: true })
+    }
+
     const reduce =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduce) {
       gl.uniform2f(uMouse, 0, 0)
       gl.uniform1f(uEnergy, 0)
+      gl.uniform1f(uRecede, recedeVal)
       gl.uniform1f(uTime, 6.0)
       gl.uniform1f(uIntro, 1)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
-      return () => ro.disconnect()
+      return () => {
+        ro.disconnect()
+        if (onScroll) window.removeEventListener('scroll', onScroll)
+      }
     }
 
     const mouse = { x: 0, y: 0 }
@@ -194,6 +213,7 @@ export default function LabShader() {
       energyUsed += (energy - energyUsed) * 0.2
       gl.uniform2f(uMouse, mouse.x, mouse.y)
       gl.uniform1f(uEnergy, energyUsed)
+      gl.uniform1f(uRecede, recedeVal)
       gl.uniform1f(uTime, t)
       gl.uniform1f(uIntro, eased)
       gl.drawArrays(gl.TRIANGLES, 0, 3)
@@ -216,6 +236,7 @@ export default function LabShader() {
       running = false
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
+      if (onScroll) window.removeEventListener('scroll', onScroll)
       document.removeEventListener('visibilitychange', onVis)
       ro.disconnect()
       gl.deleteProgram(prog)
@@ -223,7 +244,7 @@ export default function LabShader() {
       gl.deleteShader(fs)
       gl.deleteBuffer(buf)
     }
-  }, [])
+  }, [recede])
 
   return (
     <canvas
