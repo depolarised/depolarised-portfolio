@@ -9,7 +9,7 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="bg-ink text-chalk">
+    <footer className="bg-field-deep text-chalk">
       <div className="section-container py-16">
         <div className="grid gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>

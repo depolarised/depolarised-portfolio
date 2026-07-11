@@ -25,7 +25,7 @@ export default function Contact({ index = '03' }: { index?: string }) {
         </Reveal>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-[1.2fr_1fr]">
-          <Reveal className="grid gap-px overflow-hidden rounded border border-ink/10 bg-ink/10 sm:grid-cols-2">
+          <Reveal className="grid gap-px overflow-hidden rounded border border-ink/20 bg-ink/20 sm:grid-cols-2">
             {socialLinks.map((link) => (
               <a
                 key={link.name}
@@ -41,7 +41,7 @@ export default function Contact({ index = '03' }: { index?: string }) {
                   <span className="block font-display text-base font-bold text-ink">
                     {link.name}
                   </span>
-                  <span className="block truncate text-sm text-haze">{link.handle}</span>
+                  <span className="block truncate text-sm text-chalk/80">{link.handle}</span>
                 </span>
               </a>
             ))}

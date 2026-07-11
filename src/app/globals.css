@@ -205,6 +205,9 @@
 [data-theme='dark'] .bg-ink\/10 {
   background-color: rgba(246, 242, 234, 0.16);
 } /* grid gap hairlines */
+[data-theme='dark'] .bg-ink\/20 {
+  background-color: rgba(246, 242, 234, 0.24);
+} /* crisper card borders / dividers (e.g. contact grid) */
 [data-theme='dark'] .field {
   background-color: #4e1a9e;
 } /* field sections deepen on the grape base */
