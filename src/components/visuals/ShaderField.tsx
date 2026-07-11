@@ -22,6 +22,7 @@ precision highp float;
 uniform vec2 u_res;
 uniform float u_time;
 uniform float u_intro; // 0..1 resolve-from-noise
+uniform vec2 u_mouse;  // smoothed, -1..1 across the viewport
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 345.45));
@@ -43,7 +44,9 @@ float fbm(vec2 p) {
 }
 void main() {
   vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / u_res.y;
+  uv += u_mouse * 0.02;              // subtle parallax under the cursor
   float t = u_time * 0.06;
+  float ms = u_mouse.x * 0.55;       // horizontal mouse shifts the sheen hue
 
   // domain warp — two levels for the flowing, wing-like forms
   vec2 q = vec2(fbm(uv * 1.5 + vec2(0.0, t)),
@@ -66,9 +69,9 @@ void main() {
   // boldly without going rainbow through the calm violet bulk.
   float e = length(r - q) * 1.35;
   float sheen = smoothstep(0.30, 0.9, e);
-  vec3 oil = 0.5 + 0.5 * cos(6.28318 * (f * 3.0 + 0.10 * t + vec3(0.0, 0.35, 0.70)));
+  vec3 oil = 0.5 + 0.5 * cos(6.28318 * (f * 3.0 + 0.10 * t + ms + vec3(0.0, 0.35, 0.70)));
   col = mix(col, oil, 0.16 * sheen);
-  vec3 irid = 0.12 * cos(6.28318 * ((f * 2.2 + 0.12 * t) + vec3(0.0, 0.33, 0.66)));
+  vec3 irid = 0.12 * cos(6.28318 * ((f * 2.2 + 0.12 * t + ms) + vec3(0.0, 0.33, 0.66)));
   col += irid * sheen;
 
   // The one lime/pearl charge — a glint along the sharpest rims only.
@@ -138,6 +141,7 @@ export default function ShaderField() {
     const uRes = gl.getUniformLocation(prog, 'u_res')
     const uTime = gl.getUniformLocation(prog, 'u_time')
     const uIntro = gl.getUniformLocation(prog, 'u_intro')
+    const uMouse = gl.getUniformLocation(prog, 'u_mouse')
 
     gl.clearColor(0.11, 0.05, 0.3, 1)
     gl.clear(gl.COLOR_BUFFER_BIT)
@@ -170,6 +174,16 @@ export default function ShaderField() {
       return () => ro.disconnect()
     }
 
+    // Smoothed pointer — target set on move, eased toward each frame so the
+    // shimmer glides rather than snaps.
+    const mouse = { x: 0, y: 0 }
+    const target = { x: 0, y: 0 }
+    const onMove = (e: PointerEvent) => {
+      target.x = (e.clientX / window.innerWidth) * 2 - 1
+      target.y = (e.clientY / window.innerHeight) * 2 - 1
+    }
+    window.addEventListener('pointermove', onMove, { passive: true })
+
     let raf = 0
     let running = true
     const start = performance.now()
@@ -178,6 +192,9 @@ export default function ShaderField() {
       const t = (now - start) / 1000
       const intro = Math.min(t / 2.0, 1)
       const eased = 1 - Math.pow(1 - intro, 3)
+      mouse.x += (target.x - mouse.x) * 0.05
+      mouse.y += (target.y - mouse.y) * 0.05
+      gl.uniform2f(uMouse, mouse.x, mouse.y)
       render(t, eased)
       raf = requestAnimationFrame(loop)
     }
@@ -197,6 +214,7 @@ export default function ShaderField() {
     return () => {
       running = false
       cancelAnimationFrame(raf)
+      window.removeEventListener('pointermove', onMove)
       document.removeEventListener('visibilitychange', onVisibility)
       ro.disconnect()
       gl.deleteProgram(prog)
