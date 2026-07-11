@@ -10,7 +10,7 @@ export const experiences: ExperienceItem[] = [
     featured: true,
     description: [
       'Working in the ECG Core Lab led by Prof. Peter Macfarlane and Prof. Derek Connelly, on the Glasgow ECG analysis program. The program is clinically deployed and helps interpret more than 20 million electrocardiograms a year.',
-      'Building a commercial deep-learning layer that improves atrial-fibrillation detection, using signal-processing methods borrowed from astronomy and geophysics rather than a foundation model.',
+      'Building a commercial deep-learning layer that improves atrial-fibrillation detection. It reads the faint atrial signal with methods borrowed from astronomy and geophysics.',
       'Validating against expert-adjudicated reference standards and external databases, developing to IEC 60601-2-51 under an ISO 9001:2015 quality system.',
       'Adding modern ML practice (rigorous evaluation, testing, reproducibility) to a codebase the lab has developed for over fifty years, so it stays dependable in clinical use.',
     ],
@@ -23,8 +23,8 @@ export const experiences: ExperienceItem[] = [
     period: 'Jan 2023 — Nov 2025',
     type: 'industry',
     description: [
-      'Co-founded a digital-therapeutics startup and owned all the technology for a VR treatment for Seasonal Affective Disorder, from prototype to clinical pilot.',
-      'Raised £100k across two UKRI rounds through the UCL and Cambridge alumni accelerators. Ran early trials with UCL Hospitals that showed the treatment worked.',
+      'Co-founded a digital-therapeutics startup and led the technology for a VR treatment for Seasonal Affective Disorder, from prototype to clinical pilot.',
+      'Raised £100k across two UKRI rounds through the UCL and Cambridge alumni accelerators. Ran an early pilot with UCL Hospitals with promising results.',
       'Built the VR product in Unity for Meta hardware, with instrumented user metrics.',
     ],
     skills: ['Digital Therapeutics', 'VR / XR', 'Unity', 'Clinical Trials', 'Leadership'],

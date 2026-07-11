@@ -30,7 +30,7 @@ export default function Experience({ index = '02' }: { index?: string }) {
             index={index}
             title="Experience"
             titleJa="経歴"
-            description="Sixteen years across academia and industry, in research, engineering, and shipping."
+            description="Sixteen years across academia and industry, in research and engineering."
           />
         </Reveal>
 

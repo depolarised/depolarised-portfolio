@@ -24,7 +24,7 @@ export const recognition: RecognitionItem[] = [
   },
   {
     year: '2024',
-    title: 'OHBM — Explainable deep learning for subtyping',
+    title: 'OHBM: Explainable deep learning for subtyping',
     detail: 'SmoothGrad attribution · Organization for Human Brain Mapping',
   },
   {
@@ -34,7 +34,7 @@ export const recognition: RecognitionItem[] = [
   },
   {
     year: '2023',
-    title: 'OHBM — Neurodevelopmental phenotypes via GNNs',
+    title: 'OHBM: Neurodevelopmental phenotypes via GNNs',
     detail: 'Neonatal brain connectivity · graph neural networks',
   },
   {
@@ -44,7 +44,7 @@ export const recognition: RecognitionItem[] = [
   },
   {
     year: '2021',
-    title: 'ISMRM — 3D-VNN coronary MR angiography',
+    title: 'ISMRM: 3D-VNN coronary MR angiography',
     detail: 'Learned reconstruction · Int’l Society for Magnetic Resonance in Medicine',
   },
 ]

@@ -14,7 +14,7 @@ export const capabilities: Capability[] = [
     title: 'Deep learning at scale',
     titleJa: '大規模学習',
     description:
-      'Training and shipping models against millions of records. Data pipelines, HPC and GPU compute, and production ML that keeps working long after the prototype.',
+      'Training models on millions of records and keeping them running afterwards. Data pipelines, HPC and GPU compute, and the ordinary work of making a model dependable long after the prototype.',
     tags: ['PyTorch', 'HPC', 'Pipelines', 'Production ML'],
   },
   {

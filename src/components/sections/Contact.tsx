@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icons'
 
 const openTo = [
-  'Research & engineering roles in signal / ML at scale',
+  'Research and engineering roles in signals and machine learning',
   'Collaborations on time-series and detection problems',
   'Speaking, peer review, and technical writing',
 ]
@@ -20,7 +20,7 @@ export default function Contact({ index = '03' }: { index?: string }) {
             index={index}
             title="Contact"
             titleJa="連絡"
-            description="Open to interesting problems in signal, scale, and learning. The fastest way to reach me is email."
+            description="Happy to talk about interesting problems in signals and machine learning. Email is the fastest way to reach me."
           />
         </Reveal>
 

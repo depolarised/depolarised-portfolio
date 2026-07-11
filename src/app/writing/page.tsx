@@ -15,7 +15,7 @@ export default function WritingPage() {
         label="Writing"
         title="Writing"
         titleJa="記録"
-        description="Occasional notes on signal, detection, and learning at scale."
+        description="Occasional notes on detection, signals, and machine learning."
       />
       <section className="py-20 md:py-28">
         <div className="section-container">

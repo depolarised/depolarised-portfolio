@@ -11,11 +11,11 @@ export const workItems: WorkItem[] = [
     year: 2025,
     featured: true,
     tagline:
-      'A commercial deep-learning layer that sharpens atrial-fibrillation detection in the Glasgow ECG program.',
+      'A deep-learning layer that improves atrial-fibrillation detection in the Glasgow ECG program.',
     summary:
-      'The Glasgow ECG analysis program has been developed continuously for more than fifty years in the ECG Core Lab at the University of Glasgow, led by Prof. Peter Macfarlane and Prof. Derek Connelly. It helps interpret over 20 million recordings a year across licensed devices and research studies. My main project is a commercial deep-learning layer that improves how the program detects atrial fibrillation. It enhances the existing algorithm rather than replacing it, cutting false positives and giving clinicians a tunable balance of sensitivity and specificity.',
+      'The Glasgow ECG analysis program has been developed for more than fifty years in the ECG Core Lab at the University of Glasgow, led by Prof. Peter Macfarlane and Prof. Derek Connelly. It helps read over 20 million recordings a year across licensed devices and research studies. My main project is a commercial deep-learning layer that improves how the program detects atrial fibrillation. It strengthens the existing algorithm instead of replacing it, which cuts false positives and lets clinicians set the balance of sensitivity and specificity they want.',
     contributions: [
-      'Building the atrial-fibrillation detection models with task-specific machine learning, not a foundation model, chosen for interpretability and control over the operating point.',
+      'Building the atrial-fibrillation detection models with task-specific machine learning. I chose that over a large foundation model to keep the operating point interpretable and under our control.',
       'Reading the atrial residual of the ECG with weak-signal methods borrowed from astronomy and geophysics (Lomb-Scargle periodograms, chaos and entropy measures, Allan and Fano variance).',
       'Validating against expert-adjudicated reference standards reviewed by Prof. Macfarlane and Prof. Connelly, across external databases including MIMIC-IV, PTB-XL, and CODE-15.',
       'Bringing rigorous evaluation, testing, and traceability to a long-lived, safety-critical codebase.',
@@ -84,15 +84,15 @@ export const workItems: WorkItem[] = [
     role: 'Senior Research Engineer',
     year: 2021,
     featured: false,
-    tagline: 'Automating genomic data analysis with custom models at scale.',
+    tagline: 'Automating genomic data-analysis pipelines with custom models.',
     summary:
-      'Led development of AI models, including custom LLMs, that automated genomic data-analysis pipelines in a high-performance production environment. Processing got around 40% faster.',
+      'Led the development of AI models, including custom language models, that automated genomic data-analysis pipelines. The work cut processing time by around 40 percent.',
     contributions: [
       'Built model-driven automation across data-heavy genomic pipelines.',
-      'Integrated models into production with scalability as a first-class concern.',
+      'Put the models into the production system and kept them working as the data grew.',
     ],
     context: [
-      'Genomic pipelines are bespoke and data-heavy, so automation pays off quickly at scale.',
+      'Genomic pipelines are bespoke and data-heavy, so good automation pays off quickly.',
     ],
     stack: ['Python', 'PyTorch', 'LLMs', 'Production ML'],
   },

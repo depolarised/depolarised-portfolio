@@ -36,7 +36,7 @@ export default function WorkCaseStudy({ params }: { params: { slug: string } }) 
           <MonoLabel className="mt-8 block text-chalk/70">
             {item.role} · {item.organization} · {item.period}
           </MonoLabel>
-          <h1 className="mt-4 font-display text-display text-chalk">{item.title}</h1>
+          <h1 className="mt-4 max-w-3xl font-display text-display text-chalk">{item.title}</h1>
           {item.titleJa && (
             <p className="mt-3 font-display text-h2 font-normal tracking-[0.04em] text-accent">
               {item.titleJa}
