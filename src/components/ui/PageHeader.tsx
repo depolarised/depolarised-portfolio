@@ -1,6 +1,7 @@
 import { MonoLabel } from './MonoLabel'
 
-/** Violet field band that opens a subpage. */
+/** Opening band of a subpage — transparent so the fixed shader field shows
+ *  through (dark mode already maps the text/accents for the grape base). */
 export function PageHeader({
   label,
   title,
@@ -13,7 +14,7 @@ export function PageHeader({
   description?: string
 }) {
   return (
-    <section className="field">
+    <section>
       <div className="section-container py-16 md:py-24">
         <MonoLabel className="text-chalk/70">{label}</MonoLabel>
         <h1 className="mt-4 font-display text-display text-chalk">

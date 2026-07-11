@@ -90,22 +90,21 @@ export default function FragmentCanvas({
     const ro = new ResizeObserver(resize)
     ro.observe(canvas)
 
+    // Recede is read from scrollY every frame (not via a scroll listener): the
+    // canvas lives in the root layout and persists across route changes, so it
+    // never remounts — reading live keeps each new page's header un-receded even
+    // when navigation resets scroll without firing an event.
     let recedeVal = 0
-    const onScroll = recede
-      ? () => {
-          const vh = window.innerHeight || 800
-          recedeVal = Math.min(Math.max(window.scrollY / (vh * 0.85), 0), 1)
-        }
-      : null
-    if (onScroll) {
-      onScroll()
-      window.addEventListener('scroll', onScroll, { passive: true })
+    const computeRecede = () => {
+      const vh = window.innerHeight || 800
+      recedeVal = Math.min(Math.max(window.scrollY / (vh * 0.85), 0), 1)
     }
 
     const reduce =
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (reduce) {
+      if (recede) computeRecede()
       gl.uniform2f(uMouse, 0, 0)
       gl.uniform1f(uEnergy, 0)
       gl.uniform1f(uRecede, recedeVal)
@@ -114,7 +113,6 @@ export default function FragmentCanvas({
       gl.drawArrays(gl.TRIANGLES, 0, 3)
       return () => {
         ro.disconnect()
-        if (onScroll) window.removeEventListener('scroll', onScroll)
       }
     }
 
@@ -148,6 +146,7 @@ export default function FragmentCanvas({
       mouse.y += (targ.y - mouse.y) * 0.06
       energy *= 0.93
       energyUsed += (energy - energyUsed) * 0.2
+      if (recede) computeRecede()
       gl.uniform2f(uMouse, mouse.x, mouse.y)
       gl.uniform1f(uEnergy, energyUsed)
       gl.uniform1f(uRecede, recedeVal)
@@ -173,7 +172,6 @@ export default function FragmentCanvas({
       running = false
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
-      if (onScroll) window.removeEventListener('scroll', onScroll)
       document.removeEventListener('visibilitychange', onVis)
       ro.disconnect()
       gl.deleteProgram(prog)

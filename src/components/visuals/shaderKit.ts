@@ -126,35 +126,4 @@ vec3 shade(vec2 uv, float t, float en){
 }
 `
 
-// LAB: the signal living inside the iridescent field — the field is the noise,
-// the ECG is the signal emerging from it. Field kept calm (grape-biased) so the
-// signal stays the clear focal element.
-const LAB_SHADE = `
-vec3 shade(vec2 uv, float t, float en){
-  vec2 q = vec2(fbm(uv * 1.5 + vec2(0.0, 0.05 * t)),
-                fbm(uv * 1.5 + vec2(3.2, -0.05 * t)));
-  float ff = fbm(uv * 1.5 + 1.7 * q);
-  vec3 field = ramp(ff);
-  float e = length(q - 0.5) * 1.6;
-  float sheen = smoothstep(0.35, 0.95, e);
-  vec3 irid = 0.12 * cos(6.28318 * (ff * 2.0 + u_mouse.x * 0.4 + vec3(0.0, 0.33, 0.66)));
-  field += irid * sheen;
-  field = mix(field, GRAPE, 0.18);              // keep the noise calm + grape
-
-  // the anchored AF-ECG signal, emerging brighter from the field
-  float trace = afTrace(uv.x);
-  float yc = trace * 0.32;
-  float thick = 0.026;
-  float d = abs(uv.y - yc);
-  float ribbon = smoothstep(thick, thick * 0.3, d);
-  vec3 sig = ramp(clamp(0.62 + trace * 0.6, 0.0, 1.0)) + vec3(0.08);
-  vec3 col = mix(field, sig, ribbon);
-  float edge = smoothstep(thick, thick * 0.5, d) * (1.0 - smoothstep(thick * 0.5, 0.0, d));
-  col += edge * vec3(0.9, 0.95, 0.8) * 0.3;
-  col += irid * ribbon * (1.0 + 0.8 * en);
-  return col;
-}
-`
-
 export const HERO_FRAG = HEADER + HERO_SHADE + MAIN
-export const LAB_FRAG = HEADER + LAB_SHADE + MAIN

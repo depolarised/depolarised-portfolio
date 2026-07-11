@@ -1,4 +1,3 @@
-import HeroBackdrop from '@/components/visuals/HeroBackdrop'
 import Hero from '@/components/sections/Hero'
 import SelectedWork from '@/components/sections/SelectedWork'
 import Capabilities from '@/components/sections/Capabilities'
@@ -9,9 +8,6 @@ import { workItems } from '@/content/work'
 export default function Home() {
   return (
     <>
-      {/* The single canvas: a fixed, anchored AF-ECG feature on the grape field
-          the page scrolls over, receding as you go. Content sits on it. */}
-      <HeroBackdrop />
       <Hero />
       <SelectedWork
         index="01"

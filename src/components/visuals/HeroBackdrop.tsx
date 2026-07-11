@@ -8,7 +8,8 @@ const FragmentCanvas = dynamic(() => import('@/components/visuals/FragmentCanvas
   loading: () => null,
 })
 
-/** Home hero backdrop: a contained, centred AF-ECG feature on the grape field. */
+/** Site-wide signature backdrop (mounted once in the root layout): the grape
+ *  field carrying a contained AF-ECG feature, receding as each route scrolls. */
 export default function HeroBackdrop() {
   return (
     <div

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Zen_Kaku_Gothic_New, Hanken_Grotesk, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
+import HeroBackdrop from '@/components/visuals/HeroBackdrop'
 import Navigation from '@/components/ui/Navigation'
 import Footer from '@/components/ui/Footer'
 import { SITE } from '@/lib/constants'
@@ -80,6 +81,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${display.variable} ${sans.variable} ${mono.variable}`}
     >
       <body className="font-sans">
+        {/* The signature: one fixed shader field (grape + anchored AF-ECG) behind
+            every route, receding as each page scrolls. Content sits on it. */}
+        <HeroBackdrop />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:font-bold focus:text-chalk"

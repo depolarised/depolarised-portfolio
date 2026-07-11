@@ -24,7 +24,7 @@ export default function WorkCaseStudy({ params }: { params: { slug: string } }) 
 
   return (
     <article>
-      <section className="field">
+      <section>
         <div className="section-container py-16 md:py-24">
           <Link
             href="/work"
