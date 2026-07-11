@@ -1,22 +1,19 @@
 'use client'
 
-import dynamic from 'next/dynamic'
 import { profile } from '@/content/profile'
-import { Button } from '@/components/ui/Button'
 import { MonoLabel } from '@/components/ui/MonoLabel'
 
-const SignalField = dynamic(() => import('@/components/visuals/SignalField'), {
-  ssr: false,
-  loading: () => <div className="h-full w-full" aria-hidden />,
-})
-
+/**
+ * Home hero — text over the fixed signal backdrop (the single canvas). No own
+ * surface: the violet field and the AF-ECG come from SignalBackdrop behind it,
+ * most present here at the top of the page and receding as you scroll. Entrance
+ * is pure CSS (globals.css) so the first paint is never a frozen empty stage.
+ */
 export default function Hero() {
   return (
-    <section className="field relative overflow-hidden">
-      <div className="section-container grid items-center gap-10 py-20 md:py-28 lg:grid-cols-[1.05fr_0.95fr]">
-        {/* Entrance is pure CSS (see globals.css) so the first paint is never a
-            frozen empty stage waiting on hydration. */}
-        <div>
+    <section className="relative flex min-h-[88vh] items-center overflow-hidden">
+      <div className="section-container w-full py-20 md:py-28">
+        <div className="max-w-3xl">
           <div
             className="anim-rise mb-6 flex items-center gap-2.5"
             style={{ animationDelay: '0ms' }}
@@ -57,12 +54,15 @@ export default function Hero() {
             className="anim-rise mt-8 flex flex-wrap gap-3"
             style={{ animationDelay: '400ms' }}
           >
-            <Button href="/work" variant="onField" withArrow>
+            <a
+              href="/work"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-lime px-7 py-3 font-sans font-bold text-ink transition-colors duration-200 hover:bg-lime/85"
+            >
               View work
-            </Button>
+            </a>
             <a
               href="/#contact"
-              className="inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-chalk/40 px-6 py-3 font-sans font-bold text-chalk transition-colors duration-200 hover:bg-chalk hover:text-ink"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-[1.5px] border-chalk/40 px-7 py-3 font-sans font-bold text-chalk transition-colors duration-200 hover:border-chalk hover:bg-chalk/10"
             >
               Get in touch
             </a>
@@ -82,13 +82,16 @@ export default function Hero() {
             )}
           </div>
         </div>
+      </div>
 
-        <div
-          className="anim-fade relative h-[280px] sm:h-[360px] lg:h-[460px]"
-          style={{ animationDelay: '200ms' }}
-        >
-          <SignalField />
-        </div>
+      {/* Scroll cue — echoes the reference; quiet, hidden under reduced motion. */}
+      <div
+        className="anim-fade pointer-events-none absolute inset-x-0 bottom-8 flex flex-col items-center gap-3"
+        style={{ animationDelay: '760ms' }}
+        aria-hidden
+      >
+        <MonoLabel className="text-chalk/45">Scroll</MonoLabel>
+        <span className="h-10 w-px bg-gradient-to-b from-chalk/40 to-transparent" />
       </div>
     </section>
   )

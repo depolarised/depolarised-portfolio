@@ -7,7 +7,6 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { cn } from '@/lib/cn'
 import { NAV } from '@/lib/constants'
 import { profile } from '@/content/profile'
-import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export default function Navigation() {
   const pathname = usePathname()
@@ -30,45 +29,68 @@ export default function Navigation() {
           : 'border-transparent bg-chalk/0',
       )}
     >
-      <nav className="section-container">
-        <div className="flex h-16 items-center justify-between md:h-20">
-          <Link href="/" className="flex items-center gap-3" aria-label={profile.name}>
-            <span className="grid h-9 w-9 place-items-center rounded bg-field font-display text-sm font-black text-chalk">
+      {/* Full-bleed bar — items span the whole width, not clustered right. */}
+      <div className="w-full px-6 sm:px-10 lg:px-14">
+        <div className="flex h-20 items-center justify-between gap-6 md:h-24">
+          <Link
+            href="/"
+            className="flex shrink-0 items-center gap-3"
+            aria-label={profile.name}
+          >
+            <span className="grid h-10 w-10 place-items-center rounded bg-field font-display text-base font-black text-chalk">
               IV
             </span>
-            <span className="hidden font-display text-base font-bold text-ink sm:block">
+            <span className="hidden font-display text-lg font-bold text-ink lg:block">
               {profile.name}
             </span>
           </Link>
 
-          <div className="hidden items-center gap-8 md:flex">
+          <nav className="hidden flex-1 items-stretch justify-between px-4 md:flex lg:px-14">
             {NAV.map((item) => {
               const active = pathname === item.href
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'pb-1 font-mono text-label uppercase transition-colors',
-                    active
-                      ? 'border-b-[3px] border-lime text-ink'
-                      : 'text-haze hover:text-ink',
+                    'group relative flex flex-col items-center justify-center gap-0.5 rounded-xl px-5 py-2.5 transition-colors',
+                    active ? 'bg-chalk/10' : 'hover:bg-chalk/5',
                   )}
                 >
-                  {item.label}
+                  <span
+                    className={cn(
+                      'font-mono text-[15px] uppercase tracking-wide transition-colors md:text-base',
+                      active ? 'text-ink' : 'text-haze group-hover:text-ink',
+                    )}
+                  >
+                    {item.label}
+                  </span>
+                  <span className="font-display text-[11px] font-normal tracking-[0.2em] text-chalk/45 transition-colors group-hover:text-chalk/70">
+                    {item.ja}
+                  </span>
+                  {/* Lime bar at the bottom of the box (under the JP mark):
+                      persistent for the active page, fades in on hover. */}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      'absolute inset-x-5 bottom-1 h-[3px] rounded-full bg-lime transition-opacity duration-200',
+                      active ? 'opacity-100' : 'opacity-0 group-hover:opacity-100',
+                    )}
+                  />
                 </Link>
               )
             })}
-            <ThemeToggle />
-            <a
-              href={profile.resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary px-5 py-2 text-sm"
-            >
-              CV
-            </a>
-          </div>
+          </nav>
+
+          <a
+            href={profile.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary hidden shrink-0 px-6 text-base md:inline-flex"
+          >
+            CV
+          </a>
 
           <button
             type="button"
@@ -77,30 +99,30 @@ export default function Navigation() {
             aria-label={open ? 'Close menu' : 'Open menu'}
             aria-expanded={open}
           >
-            {open ? <XMarkIcon className="h-6 w-6" /> : <Bars3Icon className="h-6 w-6" />}
+            {open ? <XMarkIcon className="h-7 w-7" /> : <Bars3Icon className="h-7 w-7" />}
           </button>
         </div>
-      </nav>
+      </div>
 
       {open && (
         <div className="border-t border-ink/10 bg-chalk md:hidden">
-          <div className="section-container space-y-1 py-4">
+          <div className="space-y-1 px-6 py-4">
             {NAV.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="block py-3 font-mono text-label uppercase text-haze hover:text-ink"
+                className="flex items-baseline justify-between py-4 font-mono text-lg uppercase text-haze hover:text-ink"
               >
-                {item.label}
+                <span>{item.label}</span>
+                <span className="font-display text-sm text-chalk/45">{item.ja}</span>
               </Link>
             ))}
-            <ThemeToggle withLabel />
             <a
               href={profile.resumeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary mt-3 w-full"
+              className="btn-primary mt-3 w-full py-3 text-base"
             >
               Download CV
             </a>

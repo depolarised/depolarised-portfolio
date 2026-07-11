@@ -76,16 +76,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      data-theme="light"
+      data-theme="dark"
       className={`${display.variable} ${sans.variable} ${mono.variable}`}
     >
       <body className="font-sans">
-        {/* No-flash: apply a stored dark preference before paint. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem('ef-theme')==='dark')document.documentElement.dataset.theme='dark';}catch(e){}`,
-          }}
-        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-ink focus:px-4 focus:py-2 focus:font-bold focus:text-chalk"

@@ -7,10 +7,10 @@ export const SITE = {
   locale: 'en_GB',
 } as const
 
-/** Primary navigation (multi-page). */
+/** Primary navigation (multi-page). `ja` is the bilingual secondary mark. */
 export const NAV = [
-  { label: 'Work', href: '/work' },
-  { label: 'Writing', href: '/writing' },
-  { label: 'About', href: '/about' },
-  { label: 'Contact', href: '/#contact' },
+  { label: 'Work', ja: '仕事', href: '/work' },
+  { label: 'Writing', ja: '著述', href: '/writing' },
+  { label: 'About', ja: '紹介', href: '/about' },
+  { label: 'Contact', ja: '連絡', href: '/#contact' },
 ] as const

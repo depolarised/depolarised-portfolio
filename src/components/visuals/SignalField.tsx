@@ -7,12 +7,26 @@ import { useEffect, useRef } from 'react'
  * resolves out of noise, with a single lime playhead reading across it (the one
  * charge of lime). AF is modelled honestly — no organised P waves, an irregular
  * fibrillatory baseline, and irregularly-irregular R-R intervals with normal
- * QRS+T morphology. Same animation as before; only the waveform is now cardiac.
- * Performance-minded — capped DPR, paused when offscreen/hidden — and fully
- * static under prefers-reduced-motion.
+ * QRS+T morphology.
+ *
+ * Two variants:
+ *  - `inline`   — sits in a box (the classic hero-right usage).
+ *  - `backdrop` — a fixed, full-viewport backdrop the whole page scrolls over;
+ *                 the trace and playhead *recede* (dim) as you scroll away, so
+ *                 content reads over a calm violet field. The signal never fully
+ *                 vanishes (kept legible-but-quiet), and the whites are held a
+ *                 touch below full to avoid glare.
+ *
+ * Performance-minded — capped DPR, paused when hidden — and fully static under
+ * prefers-reduced-motion.
  */
-export default function SignalField() {
+export default function SignalField({
+  variant = 'inline',
+}: {
+  variant?: 'inline' | 'backdrop'
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const scrollYRef = useRef(0)
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -20,6 +34,7 @@ export default function SignalField() {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    const backdrop = variant === 'backdrop'
     const COLS = 520
     // Stable per-column phase offsets for cheap, flicker-free value noise.
     const phaseA = Array.from({ length: COLS }, (_, i) => Math.sin(i * 12.9898) * 43758.5453 % 1)
@@ -62,7 +77,7 @@ export default function SignalField() {
     ro.observe(canvas)
 
     const CHALK = 'rgba(246, 242, 234, '
-    const LIME = '#C6F24E'
+    const LIME = 'rgba(198, 242, 78, '
 
     // Gaussian bump.
     const g = (d: number, w: number) => Math.exp(-(d * d) / (w * w))
@@ -90,12 +105,22 @@ export default function SignalField() {
       Math.sin(i * 0.9 + phaseA[i] * 6.28 + t * 2.1) *
       Math.cos(i * 0.5 + phaseB[i] * 6.28 - t * 1.3)
 
-    const draw = (t: number, noiseAmp: number) => {
+    // presence ∈ [0,1]: 1 at the top of the page, easing to 0 as the hero
+    // scrolls away. Drives how far the trace recedes. inline mode is always 1.
+    const presence = () => {
+      if (!backdrop) return 1
+      const vh = window.innerHeight || 800
+      const fade = Math.min(Math.max(scrollYRef.current / (vh * 0.7), 0), 1)
+      return 1 - fade
+    }
+
+    const draw = (t: number, noiseAmp: number, pres: number) => {
       ctx.clearRect(0, 0, width, height)
       const midY = height / 2
-      const amp = Math.min(height * 0.28, 150)
+      const amp = Math.min(height * 0.28, 150) * (0.88 + 0.12 * pres)
 
-      // chalk ECG line
+      // chalk ECG line — the whites dim as the page recedes (and never sit at
+      // full brightness, to keep glare down).
       ctx.lineWidth = 1.5
       ctx.lineJoin = 'round'
       ctx.beginPath()
@@ -106,7 +131,7 @@ export default function SignalField() {
         if (i === 0) ctx.moveTo(x, y)
         else ctx.lineTo(x, y)
       }
-      ctx.strokeStyle = CHALK + '0.5)'
+      ctx.strokeStyle = CHALK + (0.14 + 0.3 * pres) + ')'
       ctx.stroke()
 
       // faint baseline
@@ -114,29 +139,41 @@ export default function SignalField() {
       ctx.beginPath()
       ctx.moveTo(0, midY)
       ctx.lineTo(width, midY)
-      ctx.strokeStyle = CHALK + '0.14)'
+      ctx.strokeStyle = CHALK + (0.06 + 0.06 * pres) + ')'
       ctx.stroke()
 
-      // lime playhead reading across the signal
+      // lime playhead reading across the signal — the one charge. The vertical
+      // guide stays a whisper (never a page seam); the dot carries the charge
+      // and recedes hard with the page.
       const ph = reduce ? 0.62 : (t * 0.08) % 1
       const nx = ph
       const x = nx * width
       const y = midY - signal(nx, t) * amp
-      ctx.strokeStyle = 'rgba(198, 242, 78, 0.45)'
+      ctx.strokeStyle = LIME + (0.05 + 0.1 * pres) + ')'
       ctx.lineWidth = 1
       ctx.beginPath()
       ctx.moveTo(x, 0)
       ctx.lineTo(x, height)
       ctx.stroke()
-      ctx.fillStyle = LIME
+      ctx.fillStyle = LIME + (0.15 + 0.75 * pres) + ')'
       ctx.beginPath()
       ctx.arc(x, y, 4, 0, Math.PI * 2)
       ctx.fill()
     }
 
     if (reduce) {
-      draw(0.8, 0.06)
+      // static, mid-presence when it's a backdrop so content still reads calmly.
+      draw(0.8, 0.06, backdrop ? 0.7 : 1)
       return () => ro.disconnect()
+    }
+
+    let onScroll: (() => void) | null = null
+    if (backdrop) {
+      onScroll = () => {
+        scrollYRef.current = window.scrollY
+      }
+      onScroll()
+      window.addEventListener('scroll', onScroll, { passive: true })
     }
 
     let raf = 0
@@ -150,7 +187,7 @@ export default function SignalField() {
       const intro = Math.min(t / 2.4, 1)
       const eased = 1 - Math.pow(1 - intro, 3)
       const noiseAmp = (1 - eased) * 0.9 + 0.06 + Math.sin(t * 0.6) * 0.02
-      draw(t, noiseAmp)
+      draw(t, noiseAmp, presence())
       raf = requestAnimationFrame(loop)
     }
     raf = requestAnimationFrame(loop)
@@ -170,9 +207,10 @@ export default function SignalField() {
       running = false
       cancelAnimationFrame(raf)
       document.removeEventListener('visibilitychange', onVisibility)
+      if (onScroll) window.removeEventListener('scroll', onScroll)
       ro.disconnect()
     }
-  }, [])
+  }, [variant])
 
   return (
     <canvas
