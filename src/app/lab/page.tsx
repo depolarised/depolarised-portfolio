@@ -1,46 +1,38 @@
 import type { Metadata } from 'next'
-import ShaderBackdrop from '@/components/visuals/ShaderBackdrop'
-import { profile } from '@/content/profile'
+import Link from 'next/link'
+import LabBackdrop from '@/components/visuals/LabBackdrop'
 import { MonoLabel } from '@/components/ui/MonoLabel'
 
 export const metadata: Metadata = {
-  title: 'Lab — shader variant',
+  title: 'Lab — ECG ribbon',
   robots: { index: false, follow: false },
 }
 
-/**
- * Experimental variant of the home hero on a bold iridescent WebGL field
- * instead of the AF-ECG signal. Same copy as `/` for an apples-to-apples
- * comparison; the signal home is unchanged.
- */
+/** Working page for the ECG-ribbon hero candidate — static, anchored, reactive. */
 export default function Lab() {
   return (
     <>
-      <ShaderBackdrop />
-      <section className="relative flex min-h-[92vh] items-center overflow-hidden">
-        <div className="section-container w-full py-20 md:py-28">
-          <div className="anim-rise max-w-3xl" style={{ animationDelay: '120ms' }}>
-            <MonoLabel className="text-chalk/60">
-              Experiment · 実験 — shader variant
-            </MonoLabel>
-            <h1 className="mt-5 font-display text-display-xl text-chalk">
-              {profile.tagline}
-            </h1>
-            <p className="mt-3 font-display text-h2 text-chalk/80">
-              {profile.taglineJa}
-            </p>
-            <p className="mt-6 max-w-xl text-body-lg leading-relaxed text-chalk/85">
-              {profile.summary}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="/"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-lime px-7 py-3 font-sans font-bold text-ink transition-colors duration-200 hover:bg-lime/85"
-              >
-                Back to the signal home
-              </a>
-            </div>
-          </div>
+      <LabBackdrop />
+      <section className="relative flex min-h-[92vh] flex-col justify-between py-24">
+        <div className="section-container">
+          <MonoLabel className="text-chalk/60">Lab · 実験 — ECG ribbon</MonoLabel>
+          <h1 className="mt-4 font-display text-display text-chalk">
+            Ribbon
+            <span className="jp-mark text-lime">波帯</span>
+          </h1>
+          <p className="mt-3 max-w-md text-body-lg leading-relaxed text-chalk/80">
+            A single AF-ECG trace as an iridescent ribbon in fake 3D — anchored and stable.
+            Move the cursor to shimmer it.
+          </p>
+        </div>
+
+        <div className="section-container">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 rounded-full border border-chalk/30 px-6 py-3 font-mono text-label uppercase text-chalk/80 transition-colors hover:bg-chalk/10 hover:text-chalk"
+          >
+            Back to home
+          </Link>
         </div>
       </section>
     </>
