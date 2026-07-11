@@ -76,30 +76,47 @@ void main(){
 }
 `
 
-// HOME: a contained, centred AF-ECG feature offset clear of the headline, on a
-// calm grape field with a whisper of iridescence. Reined spikes, thin ribbon,
-// one gentle tilt.
+// HOME: best of both — the lab's iridescent, domain-warped field carrying the
+// contained home ribbon. The field blooms toward the right negative space (where
+// the signal lives) and stays calm, high-contrast grape under the left-aligned
+// headline (keratoconus: text legibility first). The ribbon is dropped into the
+// empty space below the headline. The busier field also earns the lab's stronger
+// chromatic glitch through the shared split in MAIN.
 const HERO_SHADE = `
 vec3 shade(vec2 uv, float t, float en){
-  // calm grape field with a faint iridescent breath
-  float bn = fbm(uv * 1.3 + vec2(0.0, 0.04 * t));
-  vec3 base = mix(GRAPE * 0.92, GRAPE * 1.12, bn);
-  base += 0.045 * cos(6.28318 * (bn * 2.0 + u_mouse.x * 0.4 + vec3(0.0, 0.33, 0.66)));
+  // iridescent field (from the lab): domain-warped fbm + thin-film sheen
+  vec2 q = vec2(fbm(uv * 1.5 + vec2(0.0, 0.05 * t)),
+                fbm(uv * 1.5 + vec2(3.2, -0.05 * t)));
+  float ff = fbm(uv * 1.5 + 1.7 * q);
+  vec3 field = ramp(ff);
+  float e = length(q - 0.5) * 1.6;
+  float sheen = smoothstep(0.35, 0.95, e);
+  vec3 fIrid = 0.14 * cos(6.28318 * (ff * 2.0 + u_mouse.x * 0.4 + vec3(0.0, 0.33, 0.66)));
+  field += fIrid * sheen;
+  field = mix(field, GRAPE, 0.14);
 
-  // centred ECG feature — offset into the right negative space, clear of the
-  // left-aligned headline; contained by a soft envelope.
-  vec2 fc = vec2(0.5, 0.0);
+  // calm grape for the headline zone — keeps the left high-contrast for text
+  vec3 calm = mix(GRAPE * 0.88, GRAPE * 1.06, ff);
+
+  // field blooms across the right negative space; calmer under the headline
+  float rightBias = smoothstep(-0.1, 0.4, uv.x);
+  vec3 base = mix(calm, field, rightBias);
+
+  // contained ECG feature — dropped into the empty space below the headline,
+  // offset into the right negative space, held by a soft envelope.
+  vec2 fc = vec2(0.5, -0.26);
   float x = uv.x - fc.x;
   float xe = x / 0.45;
   float env = exp(-xe * xe);
   float trace = afTrace(x);
-  float yc = fc.y - 0.05 * x + trace * 0.28 * env; // gentle tilt, reined height
+  float yc = fc.y - 0.05 * x + trace * 0.26 * env; // gentle tilt, reined height
   float thick = 0.028;                              // thin ribbon
   float d = abs(uv.y - yc);
   float ribbon = smoothstep(thick, thick * 0.3, d) * env;
 
-  float f = 0.55 + trace * 0.6;
-  vec3 col = mix(base, ramp(clamp(f, 0.0, 1.0)), ribbon);
+  float f = 0.6 + trace * 0.6;
+  vec3 sig = ramp(clamp(f, 0.0, 1.0)) + vec3(0.05);
+  vec3 col = mix(base, sig, ribbon);
   float edge = smoothstep(thick, thick * 0.5, d) * (1.0 - smoothstep(thick * 0.5, 0.0, d)) * env;
   vec3 irid = 0.16 * cos(6.28318 * (f * 2.0 + x * 0.8 + 0.03 * t + u_mouse.x * 0.4 + vec3(0.0, 0.33, 0.66)));
   col += irid * ribbon * (1.0 + 0.8 * en);
