@@ -4,10 +4,10 @@ import { profile } from '@/content/profile'
 import { MonoLabel } from '@/components/ui/MonoLabel'
 
 /**
- * Home hero — text over the fixed signal backdrop (the single canvas). No own
- * surface: the violet field and the AF-ECG come from SignalBackdrop behind it,
- * most present here at the top of the page and receding as you scroll. Entrance
- * is pure CSS (globals.css) so the first paint is never a frozen empty stage.
+ * Home hero — text over the fixed shader backdrop (the single canvas). No own
+ * surface: the violet grape field and the anchored AF-ECG feature come from
+ * HeroBackdrop behind it, receding as you scroll. Entrance is pure CSS
+ * (globals.css) so the first paint is never a frozen empty stage.
  */
 export default function Hero() {
   return (

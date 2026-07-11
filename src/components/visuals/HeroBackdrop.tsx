@@ -1,15 +1,15 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { LAB_FRAG } from '@/components/visuals/shaderKit'
+import { HERO_FRAG } from '@/components/visuals/shaderKit'
 
 const FragmentCanvas = dynamic(() => import('@/components/visuals/FragmentCanvas'), {
   ssr: false,
   loading: () => null,
 })
 
-/** /lab study: the AF-ECG signal living inside the iridescent field. */
-export default function LabBackdrop() {
+/** Home hero backdrop: a contained, centred AF-ECG feature on the grape field. */
+export default function HeroBackdrop() {
   return (
     <div
       aria-hidden
@@ -17,8 +17,9 @@ export default function LabBackdrop() {
       style={{ background: 'var(--field)' }}
     >
       <FragmentCanvas
-        frag={LAB_FRAG}
-        ariaLabel="An AF-ECG signal emerging from inside an iridescent violet field."
+        frag={HERO_FRAG}
+        recede
+        ariaLabel="A centred iridescent ECG heartbeat, anchored on the violet field."
       />
     </div>
   )
