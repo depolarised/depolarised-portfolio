@@ -102,9 +102,10 @@ vec3 shade(vec2 uv, float t, float en){
   float rightBias = smoothstep(-0.1, 0.4, uv.x);
   vec3 base = mix(calm, field, rightBias);
 
-  // contained ECG feature — dropped into the empty space below the headline,
-  // offset into the right negative space, held by a soft envelope.
-  vec2 fc = vec2(0.5, -0.26);
+  // contained ECG feature — sits in the empty band just below "signal", in the
+  // right negative space (clear of "noise." and the body copy on the left),
+  // held by a soft envelope.
+  vec2 fc = vec2(0.5, -0.06);
   float x = uv.x - fc.x;
   float xe = x / 0.45;
   float env = exp(-xe * xe);
