@@ -69,7 +69,7 @@ void main(){
   vec3 col = vec3(cR.r, cG.g, cB.b);
   float n = hash(gl_FragCoord.xy * 0.5 + vec2(u_time));
   col = mix(mix(DEEP, vec3(n), 0.5), col, u_intro);
-  col = mix(col, GRAPE, u_recede * 0.9);        // recede to the flat grape field
+  col = mix(col, GRAPE, u_recede);              // recede fully to the flat grape field below the fold
   float v = smoothstep(1.55, 0.15, length(uv));
   col *= 0.9 + 0.1 * v;
   gl_FragColor = vec4(col, 1.0);
