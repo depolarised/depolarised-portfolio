@@ -7,7 +7,7 @@ export const profile: Profile = {
   tagline: 'Finding signal in the noise.',
   taglineJa: '鼓動・遊び・対比',
   summary:
-    'I build machine-learning systems that pick out faint signals in noisy data. Most of my time goes on the harder half of that, which is making them reliable enough to run every day in a clinic.',
+    'I build machine-learning systems that pick out faint signals in noisy data. Most of the work is the engineering that makes them trustworthy: validating them with clinicians against clinical reference standards, and keeping them reliable once they are in clinical use.',
   bio: [
     'Most of my work is on signals that are difficult to read. They are faint, they sit in a lot of noise, and they feed decisions where a wrong answer costs something.',
     'I did a PhD in computational neuroscience at King’s College London, on deep learning and explainable AI for brain connectivity. Before and around that I spent more than eight years in industry, on the Linux kernel, embedded systems, and machine-learning platforms. I also co-founded a health-tech startup and looked after its technology. The common thread was getting a promising idea to work reliably once it left the notebook.',

@@ -17,7 +17,7 @@ export default function Recognition({ index = '03' }: { index?: string }) {
             index={index}
             title="Recognition"
             titleJa="評価"
-            description="Peer-reviewed venues, the doctorate, competitive funding, and selective programmes."
+            description="Peer-reviewed publications, competitive funding, and selective research programmes."
           />
         </Reveal>
 

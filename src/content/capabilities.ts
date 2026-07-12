@@ -6,31 +6,31 @@ export const capabilities: Capability[] = [
     title: 'Signal detection in noise',
     titleJa: '信号検出',
     description:
-      'Arrhythmia and anomaly detection, denoising, time-frequency analysis, and signal-quality assessment in noisy, high-volume data. Astronomy faces the same problem with transients and faint sources.',
-    tags: ['Time-series', 'Detection', 'Denoising', 'Spectral methods'],
+      'Arrhythmia and anomaly detection, denoising, and time-frequency analysis on noisy physiological signals. Matched filtering, spectral estimation with Lomb-Scargle, wavelets, and entropy measures. The same family of methods astronomy and geophysics use to pull faint sources out of a loud background.',
+    tags: ['Time-series', 'Anomaly detection', 'Matched filtering', 'Spectral estimation', 'Wavelets'],
   },
   {
     index: '02',
     title: 'Deep learning at scale',
     titleJa: '大規模学習',
     description:
-      'Training models on millions of records and keeping them running afterwards. Data pipelines, HPC and GPU compute, and the ordinary work of making a model dependable long after the prototype.',
-    tags: ['PyTorch', 'HPC', 'Pipelines', 'Production ML'],
+      'Large-scale training on GPU and HPC clusters against millions of records, mostly in PyTorch. Data pipelines, reproducible experiments, and the ordinary engineering that keeps a model dependable long after the prototype.',
+    tags: ['PyTorch', 'GPU / HPC', 'Large-scale training', 'Data pipelines'],
   },
   {
     index: '03',
     title: 'Explainable & trustworthy AI',
     titleJa: '説明可能性',
     description:
-      'Attribution methods like SmoothGrad, Grad-CAM, and integrated gradients, so clinicians and scientists can see why a model made its call.',
-    tags: ['XAI', 'Attribution', 'Interpretability'],
+      'Model interpretability with gradient attribution (SmoothGrad, Grad-CAM, integrated gradients), calibration, and honest evaluation, so clinicians and scientists can check why a model made its call.',
+    tags: ['Interpretability', 'Gradient attribution', 'Calibration', 'Evaluation'],
   },
   {
     index: '04',
     title: 'Research engineering & systems',
     titleJa: '研究基盤',
     description:
-      'Reproducible, well-tested research software, with habits carried over from Linux-kernel and embedded systems work.',
-    tags: ['Linux', 'Rust / C++', 'CI/CD', 'Reproducibility'],
+      'Reproducible, well-tested research software: version control, CI/CD, containers, and testing on long-lived codebases. Habits carried over from Linux-kernel and embedded systems work, applied to code that has clinical consequences.',
+    tags: ['Python / Rust / C++', 'CI/CD', 'Docker', 'Testing'],
   },
 ]

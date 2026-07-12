@@ -15,12 +15,12 @@ export const recognition: RecognitionItem[] = [
   {
     year: '2025',
     title: 'Biological Psychiatry: Global Open Science',
-    detail: 'Peer-reviewed journal — µ-opioid modulation of sensorimotor connectivity (co-author)',
+    detail: 'Peer-reviewed journal · µ-opioid modulation of sensorimotor connectivity (co-author)',
   },
   {
     year: '2024',
     title: 'PhD, Machine Learning & Neuroimaging',
-    detail: 'King’s College London — explainable AI for brain connectivity',
+    detail: 'King’s College London · explainable AI for brain connectivity',
   },
   {
     year: '2024',
@@ -30,7 +30,7 @@ export const recognition: RecognitionItem[] = [
   {
     year: '2023',
     title: '£100k UKRI innovation funding',
-    detail: 'Tycho MedLink — UCL & Cambridge Judge accelerators',
+    detail: 'Tycho MedLink · UCL & Cambridge Judge accelerators',
   },
   {
     year: '2023',
