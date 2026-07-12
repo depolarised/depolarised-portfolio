@@ -12,7 +12,7 @@ import { MonoLabel } from '@/components/ui/MonoLabel'
 export default function Hero() {
   return (
     <section className="relative flex min-h-[88vh] items-center overflow-hidden">
-      <div className="section-container w-full py-20 md:py-28">
+      <div className="section-container w-full py-16 md:py-24">
         <div className="max-w-3xl">
           <div
             className="anim-rise mb-6 flex items-center gap-2.5"
@@ -84,9 +84,10 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll cue — echoes the reference; quiet, hidden under reduced motion. */}
+      {/* Scroll cue — tucked into the bottom-right corner, clear of the
+          left-aligned credentials. Quiet, hidden under reduced motion. */}
       <div
-        className="anim-fade pointer-events-none absolute inset-x-0 bottom-8 flex flex-col items-center gap-3"
+        className="anim-fade pointer-events-none absolute bottom-8 right-6 flex flex-col items-center gap-3 sm:right-8 lg:right-12"
         style={{ animationDelay: '760ms' }}
         aria-hidden
       >
