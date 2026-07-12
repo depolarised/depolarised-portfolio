@@ -179,10 +179,11 @@
 }
 
 /* ============================================================
-   Dark theme — the whole page lives on the field: grape base,
+   Field mode — the whole page lives on the field: grape base,
    paper text, lime accents, paper hairlines.
-   Toggled by ThemeToggle (sets [data-theme="dark"] on <html>).
-   Light is the default and is untouched by everything below.
+   Pinned via [data-theme="dark"] on <html> in layout.tsx (single
+   mode, no toggle). The light `:root` defaults above are kept
+   intact but currently unreachable; this map remaps them below.
    ============================================================ */
 
 /* page base + section surfaces */

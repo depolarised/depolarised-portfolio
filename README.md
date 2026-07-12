@@ -7,10 +7,12 @@ neuroscience; that's past depth, not the current positioning.)
 **Live:** [ioannis.dev](https://ioannis.dev) · **Stack:** Next.js 14 (App Router) · TypeScript ·
 Tailwind CSS · Framer Motion · Vitest
 
-Visual system — **Electric Field** (Electric Grape palette): one saturated violet field per view,
-a single lime charge, heavy bilingual (EN·JP) display type, generous negative space, flat (no
-decorative shadows). Light default + a **dark theme** toggle. The hero canvas is a chalk
-**atrial-fibrillation ECG** resolving out of noise, read by a lime playhead.
+Visual system — **Electric Field** (Electric Grape palette): a saturated violet field, a single
+lime charge, heavy bilingual (EN·JP) display type, generous negative space, flat (no decorative
+shadows). The site runs in one mode: the whole page sits on the grape field (`[data-theme="dark"]`
+pinned on `<html>`, no toggle). A **site-wide WebGL fragment shader** sits behind every route — an
+iridescent grape field carrying an anchored chalk **atrial-fibrillation ECG** ribbon, with a
+pointer-driven chromatic shimmer that recedes to flat grape as you scroll.
 
 ## Quick start
 
@@ -41,13 +43,13 @@ src/
 │   ├── opengraph-image.tsx    # dynamic OG image (twitter-image re-exports it)
 │   └── sitemap.ts             # route-aware sitemap (drafts excluded)
 ├── content/                   # TYPED DATA LAYER — edit content here, not in components
-│   ├── profile · links · experience · publications · projects
+│   ├── profile · links · experience · publications · projects · recognition
 │   ├── work · capabilities · skills · writing
-│   └── content.test.ts        # invariants (DOIs, URLs, slugs, ORCID)
+│   └── content.test.ts        # invariants (DOIs, URLs, slugs, ORCID) + a prose voice guard
 ├── components/
-│   ├── sections/              # Hero · SelectedWork · Capabilities · Experience · Publications · Projects · Contact · Skills
+│   ├── sections/              # Hero · SelectedWork · Capabilities · Recognition · Experience · Publications · Projects · Contact · Skills
 │   ├── ui/                    # Navigation · Footer · Button · Card · Badge · MonoLabel · IndexRow · SectionHeader · PageHeader · Reveal · Icons
-│   └── visuals/SignalField    # hero canvas (reduced-motion aware)
+│   └── visuals/               # HeroBackdrop · FragmentCanvas · shaderKit.ts — the site-wide shader field
 └── lib/                       # design-tokens · motion · cn · constants
 ```
 
@@ -66,21 +68,24 @@ consumed by `tailwind.config.ts` and mirrored as CSS variables in `globals.css`.
 | Chalk | `#F6F2EA` | warm bone page base, text on the field |
 
 Type: **Zen Kaku Gothic New** (display) · **Hanken Grotesk** (body/UI) · **IBM Plex Mono** (labels).
-Principles: one field per view · type as image · one charge of lime · generous negative space ·
-flat. A **dark theme** (`ThemeToggle` → `[data-theme="dark"]`) puts the whole page on the grape
-field; the context-aware `.text-accent` reads grape on paper, lime on the field/dark. Everything
-degrades under `prefers-reduced-motion`.
+Principles: one field · type as image · one charge of lime · generous negative space · flat. The
+site is pinned to the grape field (`[data-theme="dark"]` on `<html>`, no toggle); the map at the
+bottom of `globals.css` remaps the paper utilities onto the field, and the context-aware
+`.text-accent` resolves to lime there. The backdrop shader is DPR-capped, paused offscreen, static
+under `prefers-reduced-motion`, and falls back to flat violet where WebGL is absent.
 
 ## Editing content
 
 All copy lives under `src/content/` as typed arrays — change it there, not in components:
 
 - `publications.ts` — papers (keep DOIs) · `work.ts` — case studies (`slug`, `featured`)
-- `experience.ts` — roles · `projects.ts` — repos · `capabilities.ts` — the four pillars
+- `experience.ts` — roles · `projects.ts` — repos · `capabilities.ts` — the four threads
+- `recognition.ts` — the year·title·detail strip (real milestones only)
 - `skills.ts` · `writing.ts` (`draft: true` hides from the sitemap) · `profile.ts` · `links.ts`
 
-Drop a CV at `public/cv.pdf` to wire the "Download CV" link. Run `npm test` after editing the
-data layer — it validates DOIs, URLs, slugs, and the ORCID iD.
+Copy is plain, evidence-led British English with no em dashes, semicolons, or stock AI phrasing.
+`content.test.ts` guards this. Drop a CV at `public/cv.pdf` to wire the "Download CV" link. Run
+`npm test` after editing the data layer. It validates DOIs, URLs, slugs, the ORCID iD, and voice.
 
 ## CI & deploy
 
