@@ -23,8 +23,11 @@ function compile(gl: WebGLRenderingContext, type: number, src: string) {
 /**
  * Full-viewport fragment-shader canvas with the shared interaction model:
  * anchored composition, pointer-velocity energy driving a chromatic-aberration
- * shimmer, and (optionally) scroll-recede. Capped DPR, paused when hidden,
- * static under prefers-reduced-motion, flat-violet fallback if WebGL is absent.
+ * shimmer, and (optionally) scroll-recede. Capped DPR, paused when hidden.
+ * Degrades to a single settled frame under prefers-reduced-motion and on touch
+ * devices (phones/tablets, where iOS Safari janks a fixed full-screen GL canvas
+ * during scroll) — there the scroll-recede is a compositor-only opacity fade.
+ * Flat-violet fallback if WebGL is absent.
  */
 export default function FragmentCanvas({
   frag,
@@ -86,33 +89,106 @@ export default function FragmentCanvas({
       gl.viewport(0, 0, canvas.width, canvas.height)
       gl.uniform2f(uRes, canvas.width, canvas.height)
     }
+    // One settled, non-animated frame — shared by the reduced-motion and touch
+    // paths below, and used to repaint after a resize.
+    const drawStatic = (rec: number) => {
+      gl.uniform2f(uMouse, 0, 0)
+      gl.uniform1f(uEnergy, 0)
+      gl.uniform1f(uRecede, rec)
+      gl.uniform1f(uTime, 6.0)
+      gl.uniform1f(uIntro, 1)
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
+    }
+
     resize()
-    const ro = new ResizeObserver(resize)
+
+    // The resize handler is swapped per render path: the animated desktop loop
+    // only needs the viewport updated (it repaints next frame), while the static
+    // paths must repaint the single frame or it is left stretched — or cleared to
+    // black — after an iOS address-bar resize or a rotation.
+    let handleResize = resize
+    const ro = new ResizeObserver(() => handleResize())
     ro.observe(canvas)
 
-    // Recede is read from scrollY every frame (not via a scroll listener): the
-    // canvas lives in the root layout and persists across route changes, so it
-    // never remounts — reading live keeps each new page's header un-receded even
-    // when navigation resets scroll without firing an event.
+    // Recede is read from scrollY live (not via a scroll listener): the canvas
+    // lives in the root layout and persists across route changes, so it never
+    // remounts — reading live keeps each new page's header un-receded even when
+    // navigation resets scroll without firing an event.
     let recedeVal = 0
     const computeRecede = () => {
       const vh = window.innerHeight || 800
       recedeVal = Math.min(Math.max(window.scrollY / (vh * 0.85), 0), 1)
     }
 
-    const reduce =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) {
-      if (recede) computeRecede()
-      gl.uniform2f(uMouse, 0, 0)
-      gl.uniform1f(uEnergy, 0)
-      gl.uniform1f(uRecede, recedeVal)
-      gl.uniform1f(uTime, 6.0)
-      gl.uniform1f(uIntro, 1)
-      gl.drawArrays(gl.TRIANGLES, 0, 3)
+    const mql = (q: string) => typeof window !== 'undefined' && window.matchMedia(q).matches
+    const reduce = mql('(prefers-reduced-motion: reduce)')
+    // Phones and tablets: no live shader. iOS Safari janks and mis-renders a
+    // full-screen fixed WebGL canvas during scroll (the address bar collapsing
+    // thrashes the fixed layer and forces buffer reallocations), and the
+    // pointer-velocity interaction is meaningless without a hovering pointer.
+    // Paint one settled frame instead, and on the home field let a cheap opacity
+    // fade — compositor only, no GL — carry the scroll-recede toward flat grape.
+    const touch = mql('(hover: none) and (pointer: coarse)')
+
+    if (reduce || touch) {
+      // Under reduced motion, honour the current scroll once and hold it. On a
+      // touch device (motion still allowed) paint the full ribbon and let the
+      // opacity fade below do the receding.
+      const fadeOnScroll = touch && !reduce && recede
+      if (reduce && recede) computeRecede()
+      const staticRecede = fadeOnScroll ? 0 : recedeVal
+      drawStatic(staticRecede)
+
+      let rafResize = 0
+      handleResize = () => {
+        if (rafResize) return
+        rafResize = requestAnimationFrame(() => {
+          rafResize = 0
+          resize()
+          drawStatic(staticRecede)
+        })
+      }
+
+      // Scroll-recede without touching GL: read scrollY per frame and fade the
+      // canvas opacity, revealing the container's flat grape. Reading live (vs a
+      // scroll listener) also re-settles opacity when navigation resets scroll.
+      let rafFade = 0
+      let fading = fadeOnScroll
+      let lastOpacity = -1
+      const fadeLoop = () => {
+        if (!fading) return
+        computeRecede()
+        const o = 1 - recedeVal
+        if (Math.abs(o - lastOpacity) > 0.002) {
+          canvas.style.opacity = String(o)
+          lastOpacity = o
+        }
+        rafFade = requestAnimationFrame(fadeLoop)
+      }
+      const onVisStatic = () => {
+        if (document.hidden) {
+          fading = false
+          cancelAnimationFrame(rafFade)
+        } else if (fadeOnScroll && !fading) {
+          fading = true
+          rafFade = requestAnimationFrame(fadeLoop)
+        }
+      }
+      if (fadeOnScroll) {
+        rafFade = requestAnimationFrame(fadeLoop)
+        document.addEventListener('visibilitychange', onVisStatic)
+      }
+
       return () => {
+        fading = false
+        cancelAnimationFrame(rafFade)
+        cancelAnimationFrame(rafResize)
+        document.removeEventListener('visibilitychange', onVisStatic)
         ro.disconnect()
+        gl.deleteProgram(prog)
+        gl.deleteShader(vs)
+        gl.deleteShader(fs)
+        gl.deleteBuffer(buf)
       }
     }
 
