@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Privacy policy — Tobar — Listening Room</title>
+    <style>
+      :root { font-family: system-ui, sans-serif; color: #1b3d40; background: #eef4f2; line-height: 1.7; }
+      body { margin: 0; }
+      main { max-width: 760px; margin: 0 auto; padding: 48px 24px 80px; }
+      h1, h2 { font-family: Georgia, serif; line-height: 1.3; }
+      h1 { font-size: clamp(2rem, 5vw, 3rem); }
+      h2 { margin-top: 2rem; }
+      a { color: #07545b; }
+      a:focus-visible { outline: 3px solid #bb8644; outline-offset: 3px; }
+      .eyebrow { color: #526255; font-size: .8rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+      .date { color: #526255; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">Tobar — Listening Room</p>
+      <h1>Privacy policy</h1>
+      <p class="date">Last updated: 5 October 2026</p>
+      <p>Tobar — Listening Room is an independent browser extension by Ioannis Valasakis for saving research from Tobar an Dualchais. Its project website is <a href="https://wizofe.uk/">wizofe.uk</a>. It has no account, analytics, advertising, browser sync or developer-operated server.</p>
+
+      <h2>What the extension handles</h2>
+      <p>When you click its toolbar button on a supported Tobar an Dualchais recording or submitted-search page, the extension reads the loaded page's URL, visible catalogue text, metadata and result links to prepare a capture for your review. It does not continuously monitor browsing or crawl other pages. Clicking the button on an unsupported site opens your collection without reading that site's content.</p>
+      <p>If you choose to save, the extension stores the captured archive metadata, search URL and parameters, selected result snapshots, collection memberships, personal titles, notes, tags, favourites and listening positions in IndexedDB owned by the extension in your Chrome profile. The extension also stores its own settings there. These records remain until you delete them, replace the collection with a JSON restore, or remove the extension or its browser profile.</p>
+
+      <h2>Where data goes</h2>
+      <p>The developer does not receive, collect or share your saved data. The extension sends no saved collection or notes to an external service. Browsing the local collection does not request archive pages. Opening a source link or running a saved search navigates to Tobar an Dualchais, so the archive receives that visit under its own privacy practices. Personal notes are not added to archive URLs.</p>
+      <p>JSON and Markdown ZIP exports are downloaded only when you request them. You control where those files are stored and whether you share them. JSON restoration reads a file you select and replaces the local collection only after preview and confirmation. Neither backup format is encrypted by the extension.</p>
+
+      <h2>Permissions</h2>
+      <p><code>activeTab</code> grants temporary access to the tab after you click the extension. <code>scripting</code> lets it extract a capture from a supported archive page. The extension requests no persistent host, history, cookies, storage-API or download permissions.</p>
+
+      <h2>Your choices</h2>
+      <p>You can use the collection without capturing a page. You can export a complete JSON backup or a readable Markdown ZIP at any time. You can remove your data by replacing the collection with an empty valid backup, deleting the browser profile, or uninstalling the extension. Uninstalling can also delete your only local copy, so export first.</p>
+
+      <p>For privacy questions, contact <a href="mailto:wizofe.dev@gmail.com">wizofe.dev@gmail.com</a>.</p>
+    </main>
+  </body>
+</html>
