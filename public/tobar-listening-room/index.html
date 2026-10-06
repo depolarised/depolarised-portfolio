@@ -203,6 +203,32 @@
         transform: translateY(-1px);
       }
 
+      button.btn {
+        cursor: pointer;
+        font-family: inherit;
+        border: 1px solid var(--color-border);
+      }
+
+      .copy-feedback {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--color-primary-dark);
+        margin: 8px 0 0;
+        min-height: 1.3em;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .copy-feedback-light {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #bbf2e5;
+        margin: 10px 0 0;
+        min-height: 1.3em;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
       /* Preview Card */
       .preview-container {
         margin: 36px 0 64px;
@@ -478,10 +504,26 @@
 
           <div class="actions">
             <a
-              href="mailto:wizofe.dev@gmail.com?subject=Tobar%20Listening%20Room%20Feedback%20%26%20Ideas"
+              href="mailto:wizofe.dev@gmail.com?subject=Tobar%20Listening%20Room%20Feedback"
               class="btn btn-primary"
             >
-              ✉ Email Features / Bug Reports
+              ✉ Email wizofe.dev@gmail.com
+            </a>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="copyEmail('hero-copy-msg')"
+            >
+              📋 Copy Email
+            </button>
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=wizofe.dev@gmail.com&su=Tobar+Listening+Room+Feedback"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary"
+              title="Compose message in Gmail web"
+            >
+              Gmail Web ↗
             </a>
             <a href="/tobar-listening-room/privacy.html" class="btn btn-secondary">
               Read Privacy Policy
@@ -495,6 +537,7 @@
               Visit Tobar an Dualchais ↗
             </a>
           </div>
+          <div id="hero-copy-msg" class="copy-feedback" aria-live="polite"></div>
         </section>
 
         <div class="preview-container">
@@ -626,22 +669,34 @@
             </p>
             <div class="feedback-actions">
               <a
-                href="mailto:wizofe.dev@gmail.com?subject=Tobar%20Listening%20Room%20-%20Feedback%20%2F%20Bug%20Report"
+                href="mailto:wizofe.dev@gmail.com?subject=Tobar%20Listening%20Room%20Feedback"
                 class="btn btn-light"
               >
-                ✉ Email wizofe.dev@gmail.com
+                ✉ Open in Email App
               </a>
-              <a
-                href="mailto:wizofe.dev@gmail.com?subject=Tobar%20Listening%20Room%20-%20Feature%20Request"
+              <button
+                type="button"
                 class="btn btn-secondary"
-                style="background: transparent; color: #ffffff; border-color: rgba(255, 255, 255, 0.4);"
+                style="background: rgba(255, 255, 255, 0.15); color: #ffffff; border-color: rgba(255, 255, 255, 0.4);"
+                onclick="copyEmail('box-copy-msg')"
               >
-                Request a Feature
+                📋 Copy Email Address
+              </button>
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=wizofe.dev@gmail.com&su=Tobar+Listening+Room+Feedback"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-secondary"
+                style="background: rgba(255, 255, 255, 0.15); color: #ffffff; border-color: rgba(255, 255, 255, 0.4);"
+                title="Compose message in Gmail web"
+              >
+                Open in Gmail ↗
               </a>
             </div>
+            <div id="box-copy-msg" class="copy-feedback-light" aria-live="polite"></div>
             <p class="feedback-note">
-              Feel free to attach details about your browser version or the Tobar an Dualchais recording links when
-              reporting an issue.
+              Direct email: <strong style="color: #ffffff; text-decoration: underline;">wizofe.dev@gmail.com</strong>.
+              Feel free to attach details about your browser version or Tobar an Dualchais recording links when reporting an issue.
             </p>
           </div>
         </section>
@@ -669,5 +724,28 @@
         </div>
       </footer>
     </div>
+    <script>
+      function copyEmail(feedbackId) {
+        const email = 'wizofe.dev@gmail.com';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(showFeedback, fallback);
+        } else {
+          fallback();
+        }
+        function showFeedback() {
+          const el = document.getElementById(feedbackId);
+          if (el) {
+            el.textContent = '✓ Copied wizofe.dev@gmail.com to clipboard!';
+            el.style.opacity = '1';
+            setTimeout(function () {
+              el.style.opacity = '0';
+            }, 3000);
+          }
+        }
+        function fallback() {
+          window.prompt('Copy email address:', email);
+        }
+      }
+    </script>
   </body>
 </html>
