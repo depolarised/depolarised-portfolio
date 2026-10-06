@@ -22,15 +22,17 @@
     <main>
       <p class="eyebrow">Tobar — Listening Room</p>
       <h1>Privacy policy</h1>
-      <p class="date">Last updated: 5 October 2026</p>
+      <p class="date">Last updated: 6 October 2026</p>
       <p>Tobar — Listening Room is an independent browser extension by Ioannis Valasakis for saving research from Tobar an Dualchais. Its project website is <a href="https://wizofe.uk/">wizofe.uk</a>. It has no account, analytics, advertising, browser sync or developer-operated server.</p>
 
       <h2>What the extension handles</h2>
       <p>When you click its toolbar button on a supported Tobar an Dualchais recording or submitted-search page, the extension reads the loaded page's URL, visible catalogue text, metadata and result links to prepare a capture for your review. It does not continuously monitor browsing or crawl other pages. Clicking the button on an unsupported site opens your collection without reading that site's content.</p>
+      <p>Capture previews are also stored locally so the review survives a background-worker restart. Saving or discarding a capture removes its preview. Closing the review tab without either action can leave the preview stored until the extension's local data is cleared. Previews are not included in JSON or Markdown exports.</p>
       <p>If you choose to save, the extension stores the captured archive metadata, search URL and parameters, selected result snapshots, collection memberships, personal titles, notes, tags, favourites and listening positions in IndexedDB owned by the extension in your Chrome profile. The extension also stores its own settings there. These records remain until you delete them, replace the collection with a JSON restore, or remove the extension or its browser profile.</p>
 
       <h2>Where data goes</h2>
       <p>The developer does not receive, collect or share your saved data. The extension sends no saved collection or notes to an external service. Browsing the local collection does not request archive pages. Opening a source link or running a saved search navigates to Tobar an Dualchais, so the archive receives that visit under its own privacy practices. Personal notes are not added to archive URLs.</p>
+      <p>The extension's use of information follows the Chrome Web Store User Data Policy, including its Limited Use requirements. Data is used only for the capture, collection, annotation and backup features requested by you. It is not sold, used for advertising, or made available to the developer for human review.</p>
       <p>JSON and Markdown ZIP exports are downloaded only when you request them. You control where those files are stored and whether you share them. JSON restoration reads a file you select and replaces the local collection only after preview and confirmation. Neither backup format is encrypted by the extension.</p>
 
       <h2>Permissions</h2>
