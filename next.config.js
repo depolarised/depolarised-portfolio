@@ -8,6 +8,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/privacy.html',
+        destination: '/tobar-listening-room/privacy.html',
+        permanent: false,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig
